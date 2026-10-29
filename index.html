@@ -147,6 +147,12 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
   .meeting-info{margin-left:18px}
   .pg-footer{flex-direction:column;gap:8px;text-align:center}
 }
+/* ===== Logos de cabecera ===== */
+.pg-logos{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.pg-logo-uco{height:48px;width:auto;display:block}
+.pg-logo-cig{height:68px;width:auto;display:block}
+.pg-logo-sep{width:1px;height:46px;background:var(--c-border)}
+.pg-logo-tag{font-family:var(--f-display);font-weight:700;font-size:17px;line-height:1.05;color:var(--c-uco);letter-spacing:.3px}
 /* ===== Ajustes de legibilidad y uso táctil (escritorio y móvil) ===== */
 .ec-time-date{font-size:10.5px}
 .ec-badge{font-size:10.5px}
@@ -223,6 +229,10 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
   .pg-inst-col h4{font-size:12.5px}
   .pg-inst-col p{font-size:14px}
   .pg-footer{padding:20px 16px;font-size:13px}
+  .pg-logos{gap:12px;margin-bottom:14px}
+  .pg-logo-uco{height:40px}
+  .pg-logo-cig{height:56px}
+  .pg-logo-tag{font-size:15px}
 }
 @page{size:A4 portrait;margin:14mm 12mm 16mm}
 @media print{
@@ -239,6 +249,35 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
   .ec-desc{padding:2mm 4mm 3mm;font-size:9pt}
   .session-full-grid{display:block;gap:0}
   .sfg-col{border-top:1px solid #999}
+  /* formato de impresión: logos, etiquetas legibles sin fondo y cortes de página limpios */
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pg-logos{margin-bottom:4mm}
+  .pg-logo-uco{height:13mm}
+  .pg-logo-cig{height:18mm}
+  .pg-header-right{display:none!important}
+  .day-label{margin:4mm 0 3mm;break-after:avoid}
+  .day-label::before,.day-label::after{background:#999!important}
+  .day-chip{color:var(--c-uco)!important;border:1.5px solid var(--c-uco);font-size:9pt;white-space:normal}
+  .day-chip.pre{color:#3b3a4a!important;border-color:#3b3a4a}
+  .day-chip.visit{color:var(--c-gold-dark)!important;border-color:var(--c-gold-dark)}
+  .pch-date-box{color:var(--c-uco)!important;border:1px solid var(--c-uco)}
+  .ec-badge{border:1px solid currentColor!important}
+  .b-sessions{color:var(--c-uco)!important}
+  .ec-head{grid-template-columns:24mm 1fr;min-height:0}
+  .ec-time{border-right:1px solid #ccc;padding:2mm}
+  .ec-body{padding:2mm 3mm}
+  .ec-title-text{font-size:10.5pt}
+  .ec-loc{font-size:8.5pt}
+  .view-header{font-size:8.5pt;padding:2mm 3mm}
+  .sfg-col{break-inside:avoid}
+  .sfg-col-head{padding:2mm 3mm;border-bottom:1px solid var(--c-uco)}
+  .paper-row{padding:1.5mm 3mm;break-inside:avoid}
+  .paper-title{font-size:9.5pt}
+  .meeting-info{margin:2mm 4mm 3mm;padding:2mm 3mm;border:1px solid #ccc!important}
+  mark.hl{box-shadow:none!important}
+  a{color:inherit!important;text-decoration:none!important}
+  .pg-institucional-card{break-inside:avoid;padding:4mm;margin-top:6mm;border:1px solid #bbb!important}
+  .pg-footer{display:block;padding:4mm 0 0;border-top:1px solid #999;font-size:8pt}
 }
 </style>
 </head>
@@ -246,6 +285,12 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
 
 <header class="pg-header">
   <div class="pg-header-left">
+    <div class="pg-logos">
+      <img class="pg-logo-uco" src="https://leogallardo97-bit.github.io/cigestur-2026-programa-general/assets/logo_uco.png" alt="Universidad de Córdoba">
+      <span class="pg-logo-sep" aria-hidden="true"></span>
+      <img class="pg-logo-cig" src="https://leogallardo97-bit.github.io/cigestur-2026-programa-general/assets/logo_cigestur.png" alt="CIGESTUR">
+      <span class="pg-logo-tag">VI CIGESTUR<br>2026</span>
+    </div>
     <p class="pg-eyebrow">🏛️ <span data-i18n="header-eyebrow">Universidad de Córdoba · 17 al 21 Noviembre 2026</span></p>
     <h1 class="pg-title"><span data-i18n="header-title-1">Programa General</span><br><em data-i18n="header-title-2">VI CIGESTUR</em></h1>
     <p class="pg-subtitle">
@@ -276,11 +321,14 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
         <button class="btn-action" onclick="toggleAllCards()" id="btn-toggle-all" aria-pressed="false">
           ▾ <span data-i18n="btn-expand-all">Expandir / Colapsar Todo</span>
         </button>
-        <button class="btn-action" type="button" onclick="window.print()" id="btn-print">
+        <button class="btn-action" type="button" onclick="printProgram()" id="btn-print">
           🖨️ <span data-i18n="btn-print">Imprimir programa</span>
         </button>
-        <a class="btn-action pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">
-          ⬇ <span data-i18n="btn-pdf">Descargar PDF Oficial</span>
+        <a class="btn-action pdf" href="https://leogallardo97-bit.github.io/cigestur-2026-programa-general/Programa_General_VI_CIGESTUR_2026.pdf" target="_blank" rel="noopener" download="Programa_General_VI_CIGESTUR_2026.pdf" id="btn-download">
+          ⬇ <span data-i18n="btn-download-program">Descargar programa (PDF)</span>
+        </a>
+        <a class="btn-action" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">
+          📄 <span data-i18n="btn-pdf">Programa de comunicaciones (PDF)</span>
         </a>
       </div>
     </div>
@@ -631,8 +679,9 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
               </div>
               <div class="paper-row" style="background:#fffcf2;border-top:1px dashed var(--c-gold);">
                 <div class="paper-linea" style="color:var(--c-gold-dark);">Experiencia Oleoturística (13:30 h)</div>
-                <div class="paper-title">Cata Dirigida de Aceite de Oliva Virgen Extra (AOVE)</div>
-                <div class="paper-chair">Degustación técnica de variedades andaluzas autóctonas para congresistas</div>
+                <div class="paper-title">Cata de aceite dirigida: “Oleoturismo como recurso territorial”</div>
+                <div class="paper-chair">Imparten: Oficina de Turismo de Priego de Córdoba · D.O.P. Priego de Córdoba</div>
+                <div class="paper-chair">Degustación técnica de aceite de oliva virgen extra (AOVE) para congresistas</div>
               </div>
             </div>
             <div class="sfg-col-footer">
@@ -784,7 +833,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
           <span class="ec-badge b-included" data-i18n="badge-included">✓ Incluido</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-19-cult-title">Visita al Museo Taurino de Córdoba</div>
-            <div class="ec-loc"><span data-i18n="ev-19-cult-loc">Plaza Maimónides (Judería, Centro Histórico de Córdoba)</span></div>
+            <div class="ec-loc"><span data-i18n="ev-19-cult-loc">Museo Taurino de Córdoba · Plaza de Maimónides, 3, 14004 Córdoba (Judería)</span></div>
           </div>
         </div>
         <div class="ec-toggle"><div class="ec-chevron"></div></div>
@@ -794,8 +843,12 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
           <p data-i18n="ev-19-cult-desc">Actividad cultural de tarde/noche para los acreditados del congreso:</p>
           <ul style="font-size:12.5px;color:var(--c-ink-2);line-height:1.6;margin:8px 0 12px 18px;list-style:disc;">
             <li><strong>19:00 h (Hora definitiva): Visita al Museo Taurino</strong> de Córdoba.</li>
+            <li><strong data-i18n="lbl-location">Ubicación:</strong> <span data-i18n="ev-19-cult-addr">Plaza de Maimónides, 3, 14004 Córdoba (Judería, junto a la Sinagoga y a pocos metros de la Mezquita-Catedral).</span></li>
           </ul>
           <p style="font-size:12px;color:var(--c-ink-3);"><em>Actividad incluida con la acreditación oficial del congreso.</em></p>
+          <div class="card-actions-bar">
+            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Museo+Taurino+de+C%C3%B3rdoba+Plaza+de+Maim%C3%B3nides+3+14004+C%C3%B3rdoba" target="_blank" rel="noopener">📍 <span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
+          </div>
         </div>
       </div>
     </article>
@@ -1026,15 +1079,17 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
           <span class="ec-badge b-included" data-i18n="badge-included">✓ Incluido</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-21-visit-title">Jornada Técnico-Turística a Montilla — Ruta Enológica y Patrimonial</div>
-            <div class="ec-loc"><span>Montilla-Moriles (Córdoba) · Salida y Regreso: Rectorado UCO</span></div>
+            <div class="ec-loc"><span data-i18n="ev-21-visit-loc">Montilla (Córdoba) · Visita a bodega · Salida y regreso: Rectorado UCO</span></div>
+            <div class="ec-loc ec-org"><span data-i18n="ev-21-visit-collab">En colaboración con el Ayuntamiento de Montilla</span></div>
           </div>
         </div>
         <div class="ec-toggle"><div class="ec-chevron"></div></div>
       </div>
       <div class="ec-expand">
         <div class="ec-desc">
-          <p data-i18n="ev-21-visit-desc">Actividad técnica y enoturística en la comarca vitivinícola DOP Montilla-Moriles con visita guiada a bodegas tradicionales y recorrido por el patrimonio histórico, monumental y enológico del municipio.</p>
+          <p data-i18n="ev-21-visit-desc">Actividad técnica y enoturística en la comarca vitivinícola DOP Montilla-Moriles, organizada en colaboración con el Ayuntamiento de Montilla, con visita a bodega y recorrido por el patrimonio histórico, monumental y enológico del municipio.</p>
           <ul style="font-size:12.5px;color:var(--c-ink-2);line-height:1.6;margin:10px 0 12px 18px;list-style:disc;">
+            <li><strong data-i18n="lbl-place">Lugar:</strong> <span data-i18n="ev-21-visit-place">Visita a bodega (por confirmar).</span></li>
             <li><strong>Directrices y horarios de autobús:</strong> Salida desde el Rectorado de la UCO (Av. Medina Azahara) sobre las <strong>10:00 h</strong> y vuelta aproximada sobre las <strong>17:00 h</strong>.</li>
             <li><strong>Almuerzo en Montilla:</strong> Gastronomía y maridaje con vinos de la comarca vitivinícola.</li>
             <li><strong>Aforo estrictamente limitado:</strong> Hasta completar aforo de <strong>25 personas</strong>.</li>
@@ -1099,7 +1154,8 @@ const I18N = {
     "badge-preliminary-title": "⚠️ Programa Oficial en Desarrollo",
     "badge-preliminary-desc": "Horarios, ponencias y distribución en salas actualizados según el documento oficial de comités.",
     "btn-expand-all": "Expandir / Colapsar Todo",
-    "btn-pdf": "Descargar PDF Oficial",
+    "btn-pdf": "Programa de comunicaciones (PDF)",
+    "btn-download-program": "Descargar programa (PDF)",
     "chip-all": "Todos los Días",
     "chip-tue": "17 Nov · Martes",
     "chip-wed": "18 Nov · Miércoles",
@@ -1147,7 +1203,9 @@ const I18N = {
     "ev-18-pan-desc": "Encuentro cultural sobre el pan en las tradiciones judía, cristiana y musulmana, con degustación de panes y atención a la inclusión sin gluten. Encuentro previo al cóctel de bienvenida del VI CIGESTUR.",
     "badge-restricted-uco": "🔒 Acceso restringido a Universidades Internacionales Colaboradoras y Organización UCO",
     "ev-19-cult-title": "Visita al Museo Taurino de Córdoba",
-    "ev-19-cult-loc": "Plaza Maimónides (Judería, Centro Histórico de Córdoba)",
+    "ev-19-cult-loc": "Museo Taurino de Córdoba · Plaza de Maimónides, 3, 14004 Córdoba (Judería)",
+    "ev-19-cult-addr": "Plaza de Maimónides, 3, 14004 Córdoba (Judería, junto a la Sinagoga y a pocos metros de la Mezquita-Catedral).",
+    "lbl-location": "Ubicación:",
     "ev-19-cult-desc": "Actividad cultural de tarde/noche para los acreditados del congreso:",
     "ev-20-mezquita-title": "Visita nocturna a la Mezquita-Catedral «El Alma de Córdoba»",
     "ev-20-mezquita-desc": "Salida organizada a pie a las 19:00 h desde el Rectorado UCO hacia el monumento.",
@@ -1155,7 +1213,11 @@ const I18N = {
     "ev-20-mezquita-cir": "Visita a la Mezquita-Catedral y al CIR (Centro de Información y Recepción de Visitantes de la Mezquita-Catedral de Córdoba).",
     "ev-20-mezquita-meeting": "Punto de encuentro:",
     "ev-21-visit-title": "Jornada Técnico-Turística a Montilla — Ruta Enológica y Patrimonial",
-    "ev-21-visit-desc": "Actividad técnica y enoturística en la comarca vitivinícola DOP Montilla-Moriles con visita guiada a bodegas tradicionales y recorrido por el patrimonio histórico, monumental y enológico del municipio.",
+    "ev-21-visit-desc": "Actividad técnica y enoturística en la comarca vitivinícola DOP Montilla-Moriles, organizada en colaboración con el Ayuntamiento de Montilla, con visita a bodega y recorrido por el patrimonio histórico, monumental y enológico del municipio.",
+    "ev-21-visit-loc": "Montilla (Córdoba) · Visita a bodega · Salida y regreso: Rectorado UCO",
+    "ev-21-visit-collab": "En colaboración con el Ayuntamiento de Montilla",
+    "lbl-place": "Lugar:",
+    "ev-21-visit-place": "Visita a bodega (por confirmar).",
     "btn-confirm-montilla": "Confirmar asistencia a la visita",
     "notice-cap-title": "⚠️ Aforo Limitado (25 plazas):",
     "notice-cap-desc": "Hasta completar aforo de 25 personas por riguroso orden de recepción en el formulario. Actividad pendiente de aprobación formal definitiva por Administración pública.",
@@ -1195,7 +1257,8 @@ const I18N = {
     "badge-preliminary-title": "⚠️ Official Program in Progress",
     "badge-preliminary-desc": "Schedules, paper presentations and parallel rooms updated per official committee records.",
     "btn-expand-all": "Expand / Collapse All",
-    "btn-pdf": "Download Official PDF",
+    "btn-pdf": "Accepted papers programme (PDF)",
+    "btn-download-program": "Download programme (PDF)",
     "chip-all": "All Days",
     "chip-tue": "Nov 17 · Tuesday",
     "chip-wed": "Nov 18 · Wednesday",
@@ -1243,7 +1306,9 @@ const I18N = {
     "ev-18-pan-desc": "Cultural gathering on bread in the Jewish, Christian and Muslim traditions, with a bread tasting and attention to gluten-free inclusion. Held before the VI CIGESTUR welcome cocktail.",
     "badge-restricted-uco": "🔒 Restricted access to Partner International Universities & UCO Organization",
     "ev-19-cult-title": "Visit to the Bullfighting Museum of Córdoba",
-    "ev-19-cult-loc": "Plaza Maimónides (Jewish Quarter, Historic Centre of Córdoba)",
+    "ev-19-cult-loc": "Bullfighting Museum of Córdoba · Plaza de Maimónides, 3, 14004 Córdoba (Jewish Quarter)",
+    "ev-19-cult-addr": "Plaza de Maimónides, 3, 14004 Córdoba (Jewish Quarter, next to the Synagogue and a few metres from the Mosque-Cathedral).",
+    "lbl-location": "Location:",
     "ev-19-cult-desc": "Evening cultural activity included for registered congress participants:",
     "ev-20-mezquita-title": "Night Visit to the Mosque-Cathedral «El Alma de Córdoba»",
     "ev-20-mezquita-desc": "Organized walking departure at 19:00 h from UCO Rectorate towards the monument.",
@@ -1251,7 +1316,11 @@ const I18N = {
     "ev-20-mezquita-cir": "Visit to the Mosque-Cathedral and to the CIR (Visitor Information and Reception Centre of the Mosque-Cathedral of Córdoba).",
     "ev-20-mezquita-meeting": "Meeting point:",
     "ev-21-visit-title": "Technical Tour to Montilla — Wine & Heritage Route",
-    "ev-21-visit-desc": "Technical and wine-tourism journey to PDO Montilla-Moriles region featuring guided winery visits and cultural exploration.",
+    "ev-21-visit-desc": "Technical and wine-tourism visit to the PDO Montilla-Moriles wine region, organised in collaboration with the City Council of Montilla, including a winery visit and a tour of the town's historic, monumental and wine heritage.",
+    "ev-21-visit-loc": "Montilla (Córdoba) · Winery visit · Departure and return: UCO Rectorate",
+    "ev-21-visit-collab": "In collaboration with the City Council of Montilla",
+    "lbl-place": "Venue:",
+    "ev-21-visit-place": "Winery visit (to be confirmed).",
     "btn-confirm-montilla": "Confirm Attendance (Booking Form)",
     "notice-cap-title": "⚠️ Limited Capacity (25 Seats):",
     "notice-cap-desc": "Strict limit of 25 participants by registration order in form. Pending formal final public administration confirmation.",
@@ -1337,6 +1406,12 @@ function toggleCard(elem){
   if(!card.querySelector('.ec-expand')) return;
   setCardOpen(card, !card.classList.contains('open'));
   autoOpened.delete(card);
+}
+const PROGRAM_PDF_URL = 'https://leogallardo97-bit.github.io/cigestur-2026-programa-general/Programa_General_VI_CIGESTUR_2026.pdf';
+function printProgram(){
+  // Insertado en Google Sites (iframe) el navegador puede bloquear la impresión: se abre el PDF, listo para imprimir
+  if (window.self !== window.top) { window.open(PROGRAM_PDF_URL, '_blank', 'noopener'); return; }
+  window.print();
 }
 function toggleAllCards(){
   allExpanded = !allExpanded;
