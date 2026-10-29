@@ -285,6 +285,42 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
   a{color:inherit!important;text-decoration:none!important}
   .pg-institucional-card{break-inside:avoid;padding:4mm;margin-top:6mm;border:1px solid #bbb!important}
   .pg-footer{display:block;padding:4mm 0 0;border-top:1px solid #999;font-size:8pt}
+  /* ===== Impresión compacta, como en la web: las tres salas una al lado de otra ===== */
+  html,body{font-size:8.5pt;line-height:1.3}
+  .pg-header{padding:0 0 3mm}
+  .pg-title{font-size:18pt}
+  .pg-logos{margin-bottom:2mm}
+  .pg-logo-uco{height:10mm}
+  .pg-logo-cig{height:14mm}
+  .pre-congress-highlight{margin:3mm 0;padding:2mm 3mm}
+  .day-section{margin:3mm 0 0}
+  .day-label{margin:2mm 0 2mm}
+  .event-card{margin-bottom:2mm}
+  .ec-head{grid-template-columns:20mm 1fr}
+  .ec-time{padding:1.5mm}
+  .ec-time-main{font-size:11pt}
+  .ec-body{padding:1.5mm 3mm;gap:1mm 3mm;flex-direction:row;flex-wrap:wrap;align-items:center}
+  .ec-title-text{font-size:9.5pt}
+  .ec-loc{font-size:7.5pt;margin-top:0}
+  .ec-desc{padding:1.5mm 3mm 2mm;font-size:8pt}
+  .ec-desc ul{margin:1mm 0 1mm 5mm!important;font-size:8pt!important}
+  .view-header{padding:1.2mm 3mm;font-size:7.5pt}
+  .session-full-grid{display:grid!important;grid-template-columns:repeat(3,1fr);gap:0;break-inside:avoid}
+  .sfg-col,.sfg-col-body{break-inside:avoid}
+  .sfg-col{border-top:0;border-left:1px solid #bbb}
+  .sfg-col:first-child{border-left:0}
+  .sfg-col-head{padding:1.2mm 2.5mm}
+  .sfg-room{font-size:7.5pt}
+  .paper-row{padding:1.2mm 2.5mm}
+  .paper-linea{font-size:7pt;margin-bottom:.5mm}
+  .paper-title{font-size:8pt;line-height:1.25;margin-bottom:.5mm}
+  .paper-chair{font-size:7pt;line-height:1.25}
+  .invited-speakers-list{margin:1.5mm 0;padding:1.5mm 3mm;gap:.5mm 4mm}
+  .invited-speakers-list li,.invited-speakers-list li span{font-size:7.5pt}
+  .meeting-info{margin:1.5mm 3mm 2mm;padding:1.5mm 3mm;font-size:7.5pt}
+  .pg-institucional-card{padding:3mm;margin-top:4mm}
+  .pg-inst-grid{gap:3mm;margin-top:2mm}
+  .pg-inst-col p,.pg-inst-col li{font-size:7.5pt}
 }
 </style>
 </head>
