@@ -78,6 +78,7 @@ body{font-family:var(--f-body);font-size:14px;color:var(--c-ink);background:var(
 .ec-head.clickable:hover .ec-title-text{color:var(--c-uco)}
 .ec-loc{margin-top:3px;font-size:12px;color:var(--c-ink-3);display:flex;align-items:center;gap:5px}
 .ec-loc::before{content:'📍';font-size:11px;line-height:1}
+.ec-loc.ec-org::before{content:'🏛️'}
 .ec-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .ec-pill-reserva{font-size:10.5px;font-weight:600;color:#7a5520;background:#fdf5e7;border:1px solid var(--c-gold);border-radius:20px;padding:2px 10px;white-space:nowrap}
 .ec-pill-restricted{font-size:10.5px;font-weight:700;color:var(--c-uco);background:var(--c-uco-pale);border:1px solid #e5b3be;border-radius:20px;padding:3px 11px;display:inline-flex;align-items:center;gap:5px}
@@ -458,6 +459,25 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="ec-title-text" data-i18n="ev-free-title">Tarde libre</div>
             <div class="ec-loc"><span data-i18n="ev-free-loc">Tiempo libre para los participantes en Córdoba</span></div>
           </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="event-card">
+      <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
+        <div class="ec-time"><div class="ec-time-date">18 Nov</div><div class="ec-time-main">18:30</div></div>
+        <div class="ec-body">
+          <span class="ec-badge b-close" data-i18n="badge-social">Programa social</span>
+          <div>
+            <div class="ec-title-text" data-i18n="ev-18-pan-title">El pan que nos une · Tres culturas, una mesa compartida</div>
+            <div class="ec-loc ec-org"><span data-i18n="ev-18-pan-org">Organiza: Aula UCOTUREM · Universidad de Córdoba · Encuentro previo al cóctel de bienvenida</span></div>
+          </div>
+        </div>
+        <div class="ec-toggle"><div class="ec-chevron"></div></div>
+      </div>
+      <div class="ec-expand">
+        <div class="ec-desc">
+          <p data-i18n="ev-18-pan-desc">Encuentro cultural sobre el pan en las tradiciones judía, cristiana y musulmana, con degustación de panes y atención a la inclusión sin gluten. Encuentro previo al cóctel de bienvenida del VI CIGESTUR.</p>
         </div>
       </div>
     </article>
@@ -866,15 +886,16 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
                 <div class="paper-title">Destinos Gastronómicos y Enoturismo</div>
                 <div class="paper-chair">Moderan: Nuria Huete-Alcocer y Leonardo Gallardo Apolo</div>
               </div>
-              <div class="paper-row" style="background:#fffcf2;border-top:1px dashed var(--c-gold);">
-                <div class="paper-linea" style="color:var(--c-gold-dark);">Enoturismo Patrimonial · Sala de Prensa (11:00 h)</div>
-                <div class="paper-title">Cata Dirigida de Vinos por la Denominación de Origen Protegida DOP Montilla-Moriles</div>
-                <div class="paper-chair">Degustación técnica de finos, amontillados y Pedro Ximénez</div>
-              </div>
               <div class="paper-row">
                 <div class="paper-linea">Mesa Redonda (11:00 – 12:00 h)</div>
                 <div class="paper-title">“KOL EN PATRIMONIO”</div>
                 <div class="paper-chair">Creadores de contenido y divulgación del patrimonio</div>
+              </div>
+              <div class="paper-row" style="background:#fffcf2;border-top:1px dashed var(--c-gold);">
+                <div class="paper-linea" style="color:var(--c-gold-dark);">Enoturismo Patrimonial · Sala de Prensa (12:00 h)</div>
+                <div class="paper-title">Cata dirigida: “Montilla-Moriles, historia, presente y futuro de una denominación de origen única”</div>
+                <div class="paper-chair">Imparte: Fran Doblas · Consejo Regulador de la DOP Montilla-Moriles</div>
+                <div class="paper-chair">Degustación técnica de finos, amontillados y Pedro Ximénez</div>
               </div>
               <div class="paper-row">
                 <div class="paper-linea">Mesa Redonda Magistral (12:00 – 13:30 h)</div>
@@ -1121,6 +1142,9 @@ const I18N = {
     "ev-18-comedias-title": "Cóctel de bienvenida de la organización — Casa de las Comedias",
     "ev-18-comedias-loc": "Calleja de las Flores, 4, Centro, 14003 Córdoba",
     "ev-18-comedias-desc": "Encuentro institucional de bienvenida en la emblemática Casa de las Comedias (Calleja de las Flores, 4). Celebración en salón interior, formato cóctel de pie con menú concertado para universidades colaboradoras, ponentes internacionales y comité organizador.",
+    "ev-18-pan-title": "El pan que nos une · Tres culturas, una mesa compartida",
+    "ev-18-pan-org": "Organiza: Aula UCOTUREM · Universidad de Córdoba · Encuentro previo al cóctel de bienvenida",
+    "ev-18-pan-desc": "Encuentro cultural sobre el pan en las tradiciones judía, cristiana y musulmana, con degustación de panes y atención a la inclusión sin gluten. Encuentro previo al cóctel de bienvenida del VI CIGESTUR.",
     "badge-restricted-uco": "🔒 Acceso restringido a Universidades Internacionales Colaboradoras y Organización UCO",
     "ev-19-cult-title": "Visita al Museo Taurino de Córdoba",
     "ev-19-cult-loc": "Plaza Maimónides (Judería, Centro Histórico de Córdoba)",
@@ -1214,6 +1238,9 @@ const I18N = {
     "ev-18-comedias-title": "Organizers' Welcome Cocktail — Casa de las Comedias",
     "ev-18-comedias-loc": "Calleja de las Flores, 4, Historic Centre, 14003 Córdoba",
     "ev-18-comedias-desc": "Institutional welcome gathering at Casa de las Comedias (Calleja de las Flores, 4). Indoor hall celebration, standing cocktail reception with curated fixed menu for partner universities, international keynote speakers and organizing committee.",
+    "ev-18-pan-title": "The Bread That Unites Us · Three cultures, one shared table",
+    "ev-18-pan-org": "Organized by: Aula UCOTUREM · University of Córdoba · Gathering before the welcome cocktail",
+    "ev-18-pan-desc": "Cultural gathering on bread in the Jewish, Christian and Muslim traditions, with a bread tasting and attention to gluten-free inclusion. Held before the VI CIGESTUR welcome cocktail.",
     "badge-restricted-uco": "🔒 Restricted access to Partner International Universities & UCO Organization",
     "ev-19-cult-title": "Visit to the Bullfighting Museum of Córdoba",
     "ev-19-cult-loc": "Plaza Maimónides (Jewish Quarter, Historic Centre of Córdoba)",
