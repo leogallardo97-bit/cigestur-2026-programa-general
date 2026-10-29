@@ -244,6 +244,9 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
   .pg-main{max-width:none;padding:0}
   .pre-congress-highlight{border:1px solid #888!important;border-left:4px solid var(--c-uco)!important;margin:4mm 0;padding:3mm 4mm}
   .day-section{margin:6mm 0 0}
+  /* siempre se imprime el programa completo y desplegado, aunque haya un filtro o una búsqueda activa */
+  .day-section,.event-card,.ec-expand{display:block!important}
+  mark.hl{background:transparent!important;padding:0}
   .event-card{border:1px solid #bbb!important;border-radius:0;margin-bottom:3mm;break-inside:avoid}
   .ec-expand{display:block!important;border-top:1px solid #ddd}
   .ec-desc{padding:2mm 4mm 3mm;font-size:9pt}
@@ -1135,7 +1138,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
       </div>
       <div class="pg-inst-col">
         <h4>Entidades Colaboradoras</h4>
-        <p data-i18n="inst-collaborators">Ayuntamiento de Córdoba · Cabildo Catedral de Córdoba · Conjunto Arqueológico Madinat Al-Zahra · Museo Arqueológico de Córdoba · Belloterra · Palacio de Viana · Patio de las Comedias · Restaurante El Churrasco · Consejo Regulador Montilla-Moriles · Ayuntamiento de Montilla · Oficina de Turismo de Priego de Córdoba · D.O.P. Priego de Córdoba</p>
+        <p data-i18n="inst-collaborators">Ayuntamiento de Córdoba · Museo Taurino Municipal de Córdoba · Cabildo Catedral de Córdoba · Conjunto Arqueológico Madinat Al-Zahra · Museo Arqueológico de Córdoba · Belloterra · Palacio de Viana · Patio de las Comedias · Restaurante El Churrasco · Consejo Regulador de la D.O.P. Montilla-Moriles · Ayuntamiento de Montilla · Oficina de Turismo de Priego de Córdoba · D.O.P. Priego de Córdoba</p>
       </div>
     </div>
   </section>
@@ -1176,7 +1179,7 @@ const I18N = {
     "pre-note-kicker": "Pre-Congreso · Nota Previa al Programa · 10:00 h",
     "pre-note-title": "Presentación a Prensa del Programa del Congreso",
     "pre-note-sub": "Inicio a las 10:00 h · Acto institucional de presentación oficial ante los medios de comunicación previo al inicio del VI CIGESTUR 2026.",
-    "inst-collaborators": "Ayuntamiento de Córdoba · Cabildo Catedral de Córdoba · Conjunto Arqueológico Madinat Al-Zahra · Museo Arqueológico de Córdoba · Belloterra · Palacio de Viana · Patio de las Comedias · Restaurante El Churrasco · Consejo Regulador Montilla-Moriles · Ayuntamiento de Montilla · Oficina de Turismo de Priego de Córdoba · D.O.P. Priego de Córdoba",
+    "inst-collaborators": "Ayuntamiento de Córdoba · Museo Taurino Municipal de Córdoba · Cabildo Catedral de Córdoba · Conjunto Arqueológico Madinat Al-Zahra · Museo Arqueológico de Córdoba · Belloterra · Palacio de Viana · Patio de las Comedias · Restaurante El Churrasco · Consejo Regulador de la D.O.P. Montilla-Moriles · Ayuntamiento de Montilla · Oficina de Turismo de Priego de Córdoba · D.O.P. Priego de Córdoba",
     "day-tue-label": "Actividades precongresuales · Martes, 17 de noviembre de 2026",
     "day-wed-label": "Actividades precongresuales · Miércoles, 18 de noviembre de 2026",
     "day-thu-label": "Jornada 1 · Jueves, 19 de Noviembre 2026",
@@ -1279,7 +1282,7 @@ const I18N = {
     "pre-note-kicker": "Pre-Congress · Preliminary Program Note · 10:00 h",
     "pre-note-title": "Press Presentation of the Congress Program",
     "pre-note-sub": "Starts at 10:00 h · Official institutional presentation to the media prior to the formal start of VI CIGESTUR 2026.",
-    "inst-collaborators": "City Council of Córdoba · Cathedral Chapter of Córdoba · Madinat Al-Zahra Archaeological Complex · Archaeological Museum of Córdoba · Belloterra · Viana Palace · Patio de las Comedias · Restaurante El Churrasco · Montilla-Moriles PDO Regulatory Council · City Council of Montilla · Tourist Office of Priego de Córdoba · Priego de Córdoba PDO",
+    "inst-collaborators": "City Council of Córdoba · Municipal Bullfighting Museum of Córdoba · Cathedral Chapter of Córdoba · Madinat Al-Zahra Archaeological Complex · Archaeological Museum of Córdoba · Belloterra · Viana Palace · Patio de las Comedias · Restaurante El Churrasco · Montilla-Moriles PDO Regulatory Council · City Council of Montilla · Tourist Office of Priego de Córdoba · Priego de Córdoba PDO",
     "day-tue-label": "Pre-Conference Activities · Tuesday, November 17, 2026",
     "day-wed-label": "Pre-Conference Activities · Wednesday, November 18, 2026",
     "day-thu-label": "Day 1 · Thursday, November 19, 2026",
