@@ -269,7 +269,11 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
   .ec-title-text{font-size:10.5pt}
   .ec-loc{font-size:8.5pt}
   .view-header{font-size:8.5pt;padding:2mm 3mm}
-  .sfg-col{break-inside:avoid}
+  .sfg-col{break-inside:auto}
+  /* las tarjetas largas pueden continuar en la página siguiente; su cabecera y cada fila no se parten */
+  .event-card:has(.session-full-grid),.event-card:has(.invited-speakers-list){break-inside:auto}
+  .ec-head,.view-header,.sfg-col-head{break-inside:avoid;break-after:avoid}
+  .invited-speakers-list li,.ec-desc p,.ec-desc li{break-inside:avoid}
   .sfg-col-head{padding:2mm 3mm;border-bottom:1px solid var(--c-uco)}
   .paper-row{padding:1.5mm 3mm;break-inside:avoid}
   .paper-title{font-size:9.5pt}
