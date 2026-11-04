@@ -77,14 +77,11 @@ body{font-family:var(--f-body);font-size:14px;color:var(--c-ink);background:var(
 .ec-title-text{font-size:14.5px;font-weight:600;color:var(--c-ink);line-height:1.4;transition:color .15s}
 .ec-head.clickable:hover .ec-title-text{color:var(--c-uco)}
 .ec-loc{margin-top:3px;font-size:12px;color:var(--c-ink-3);display:flex;align-items:center;gap:5px}
-.ec-loc::before{content:'📍';font-size:11px;line-height:1}
-.ec-loc.ec-org::before{content:'🏛️'}
 .ec-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .ec-pill-reserva{font-size:10.5px;font-weight:600;color:#7a5520;background:#fdf5e7;border:1px solid var(--c-gold);border-radius:20px;padding:2px 10px;white-space:nowrap}
 .ec-pill-restricted{font-size:10.5px;font-weight:700;color:var(--c-uco);background:var(--c-uco-pale);border:1px solid #e5b3be;border-radius:20px;padding:3px 11px;display:inline-flex;align-items:center;gap:5px}
 .ec-toggle{padding:14px 18px;display:flex;align-items:center;border-left:1px solid var(--c-border);align-self:stretch}
 .ec-chevron{width:22px;height:22px;border:1.5px solid var(--c-border);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;background:var(--c-white)}
-.ec-chevron::after{content:'▾';font-size:11px;color:var(--c-ink-2);transition:transform .25s}
 .event-card.open .ec-chevron{border-color:var(--c-uco);background:var(--c-uco)}
 .event-card.open .ec-chevron::after{color:var(--c-white);transform:rotate(180deg)}
 .ec-expand{display:none;border-top:1px solid var(--c-border)}
@@ -234,97 +231,379 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
   .pg-logo-cig{height:56px}
   .pg-logo-tag{font-size:15px}
 }
-@page{size:A4 portrait;margin:14mm 12mm 16mm}
+/* =====================================================================
+   CAPA EDITORIAL (nov 2026)
+   Un programa impreso, no una app: papel, tinta, granate UCO y filetes.
+   Sin degradados, sin sombras decorativas, sin pastillas de colores.
+   ===================================================================== */
+:root{
+  --c-paper:#faf8f4;          /* papel cálido */
+  --c-paper-2:#f2eee6;        /* papel un tono más hondo: hover / cabeceras de sala */
+  --c-ink:#1d1b18;--c-ink-2:#46423b;--c-ink-3:#6e695f;
+  --c-rule:#e3ddd2;--c-rule-strong:#cfc7b8;
+  --c-border:var(--c-rule);--c-surface:var(--c-paper);
+  --c-uco:#8b1c31;--c-uco-deep:#6a1425;--c-uco-tint:#f5ecec;
+  --c-ok:#2f5e3a;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --r-sm:3px;--r-md:4px;--r-lg:6px;
+}
+body{background:var(--c-paper);color:var(--c-ink);font-size:15px;line-height:1.55}
+a{color:var(--c-uco)}
+
+/* iconos de trazo, heredan color */
+.ic{width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.search-icon{fill:none;stroke:var(--c-ink-3);stroke-width:1.8;stroke-linecap:round;width:16px;height:16px}
+
+/* ---------- Cabecera ---------- */
+.pg-header{background:var(--c-paper);box-shadow:none;border-bottom:1px solid var(--c-rule);padding:32px 32px 24px;max-width:1160px;margin:0 auto;align-items:flex-end}
+.pg-eyebrow{font-size:11.5px;letter-spacing:.14em;color:var(--c-uco);margin-bottom:6px}
+.pg-title{font-size:44px;font-weight:600;letter-spacing:-.01em;line-height:1.02}
+.pg-title em{font-weight:500}
+.pg-subtitle{font-size:14px;color:var(--c-ink-2);margin-top:12px}
+.pg-subtitle a{text-decoration-thickness:1px;text-underline-offset:3px}
+/* aviso: una línea de texto, no una caja amarilla */
+.pg-alert-badge{background:none;border:0;border-left:2px solid var(--c-uco);border-radius:0;padding:2px 0 2px 10px;max-width:300px;font-size:12.5px;color:var(--c-ink-3);line-height:1.45}
+.pg-alert-badge strong{color:var(--c-ink);font-size:12.5px;font-weight:600}
+.lang-switcher{background:none;border:1px solid var(--c-rule-strong);border-radius:var(--r-md);padding:2px}
+.lang-btn{border-radius:2px;min-height:30px;padding:4px 12px;font-size:12px;letter-spacing:.04em;color:var(--c-ink-3);transition:background-color .15s ease,color .15s ease}
+.lang-btn.active{background:var(--c-ink);color:var(--c-paper);box-shadow:none}
+
+/* ---------- Barra de herramientas ---------- */
+.pg-controls-bar{background:var(--c-paper);backdrop-filter:none;box-shadow:none;border-bottom:1px solid var(--c-rule);padding:14px 32px 0}
+.pg-controls-inner{gap:14px}
+.pg-controls-top-row{flex-wrap:wrap;gap:10px 16px}
+.search-wrapper{flex:1 1 300px;min-width:min(300px,100%);max-width:520px}
+.search-input{border-radius:var(--r-md);background:#fff;border:1px solid var(--c-rule-strong);font-size:14px;min-height:40px;transition:border-color .15s ease,box-shadow .15s ease}
+.search-input:focus{border-color:var(--c-ink);box-shadow:0 0 0 3px rgba(29,27,24,.08)}
+.pg-actions-group{gap:8px}
+.btn-action{background:transparent;border:1px solid var(--c-rule-strong);border-radius:var(--r-md);color:var(--c-ink-2);font-weight:500;font-size:13px;min-height:38px;padding:6px 12px;transition:background-color .15s ease,border-color .15s ease,color .15s ease,transform 120ms var(--ease-out)}
+.btn-action.pdf{background:var(--c-uco);border-color:var(--c-uco);color:#fff}   /* la única acción primaria */
+/* días: pestañas con subrayado, no pastillas */
+.pg-filter-chips{gap:0;margin-top:2px;border-top:1px solid var(--c-rule);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+.pg-filter-chips::-webkit-scrollbar{display:none}
+.filter-btn{background:none;border:0;border-bottom:2px solid transparent;border-radius:0;color:var(--c-ink-3);font-weight:500;font-size:13px;padding:12px 14px 10px;min-height:44px;white-space:nowrap;flex-shrink:0;transition:color .15s ease,border-color .15s ease}
+.filter-btn.active{background:none;color:var(--c-ink);border-bottom-color:var(--c-uco);box-shadow:none;font-weight:600}
+.search-status{margin:0;font-size:12.5px}
+
+/* ---------- Cuerpo ---------- */
+.pg-main{padding:36px 32px 80px}
+
+/* nota previa: franja informativa, no protagonista */
+.pre-congress-highlight{background:none;border:0;border-top:1px solid var(--c-rule);border-bottom:1px solid var(--c-rule);border-radius:0;box-shadow:none;padding:14px 0;margin-bottom:40px}
+.pch-date-box{background:none;color:var(--c-ink);border:1px solid var(--c-rule-strong);border-radius:var(--r-md);padding:6px 12px;min-width:84px}
+.pch-date-day{color:var(--c-ink-3);opacity:1;letter-spacing:.1em}
+.pch-date-num{font-family:var(--f-display);font-size:20px;font-weight:600}
+.pch-date-time{border-top-color:var(--c-rule);color:var(--c-uco)}
+.pch-kicker{color:var(--c-ink-3);letter-spacing:.1em;font-size:11px}
+.pch-title{font-size:15.5px;font-weight:600}
+.pch-sub{font-size:13.5px;color:var(--c-ink-3)}
+
+/* encabezado de día: título de capítulo, alineado a la izquierda */
+.day-section{margin-bottom:56px}
+.day-label{display:block;margin-bottom:4px;padding-bottom:10px;border-bottom:1px solid var(--c-ink)}
+.day-label::before,.day-label::after{display:none}
+.day-chip,.day-chip.pre,.day-chip.visit{background:none;color:var(--c-ink);padding:0;border-radius:0;font-family:var(--f-display);font-size:27px;font-weight:600;letter-spacing:0;text-transform:none;white-space:normal;line-height:1.15}
+
+/* actos: filas de un horario, separadas por filete */
+.event-card{background:none;border:0;border-bottom:1px solid var(--c-rule);border-radius:0;box-shadow:none;margin:0;overflow:visible;transition:background-color .15s ease}
+.event-card:hover{box-shadow:none;border-color:var(--c-rule)}
+.ec-head{grid-template-columns:96px 1fr auto;min-height:0}
+.ec-time{background:none;border-right:0;padding:16px 12px 16px 0;align-items:flex-start;justify-content:flex-start;text-align:left}
+.ec-time-main{font-size:15px;font-weight:600;color:var(--c-uco);letter-spacing:.01em}
+.ec-time-date{font-size:12px;text-transform:none;letter-spacing:0;color:var(--c-ink-3);font-weight:400;margin-top:2px}
+.ec-body{padding:15px 12px 15px 0;flex-direction:column;align-items:flex-start;gap:3px}
+.ec-title-text{font-size:16px;font-weight:600;line-height:1.35;color:var(--c-ink)}
+.ec-loc{font-size:13px;color:var(--c-ink-3);margin-top:2px}
+.ec-loc::before{content:none}
+/* categoría: una palabra en versalitas, sin caja */
+.ec-badge{background:none!important;border:0!important;padding:0;border-radius:0;font-size:10.5px;letter-spacing:.12em;font-weight:600;color:var(--c-ink-3)}
+.b-sessions,.b-inaug{color:var(--c-uco)}
+.b-included{color:var(--c-ok)}
+.ec-pill-restricted,.ec-pill-reserva{background:none;border:0;border-radius:0;padding:0;font-size:12px;font-weight:500;color:var(--c-uco)}
+.ec-pill-restricted::before{content:'';width:12px;height:12px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Crect x='5' y='11' width='14' height='9' rx='1'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Crect x='5' y='11' width='14' height='9' rx='1'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center/contain no-repeat}
+.ec-title-row{gap:4px 10px}
+
+/* indicador de despliegue: chevrón de trazo, sin círculo */
+.ec-toggle{border-left:0;padding:16px 4px 16px 12px;align-self:flex-start}
+.ec-chevron{width:20px;height:20px;border:0;border-radius:0;background:none;position:relative}
+.ec-chevron::after{content:'';position:absolute;inset:0;margin:auto;width:7px;height:7px;border-right:1.6px solid var(--c-ink-3);border-bottom:1.6px solid var(--c-ink-3);transform:translateY(-2px) rotate(45deg);transition:transform 200ms var(--ease-out),border-color .15s ease}
+.event-card.open .ec-chevron{background:none;border:0}
+.event-card.open .ec-chevron::after{border-color:var(--c-uco);transform:translateY(2px) rotate(225deg);color:inherit}
+
+/* fila abierta: se apoya en papel blanco; es la única "elevación" de la página */
+.event-card.open{background:#fff;box-shadow:inset 2px 0 0 var(--c-uco)}
+.event-card.open .ec-time{padding-left:14px}
+.event-card.open .ec-head{grid-template-columns:110px 1fr auto}
+.ec-expand{border-top:0}
+.event-card.open .ec-expand{animation:none;transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out)}
+@starting-style{.event-card.open .ec-expand{opacity:0;transform:translateY(-4px)}}
+.ec-desc{padding:0 20px 20px 110px;font-size:14.5px;color:var(--c-ink-2);line-height:1.6}
+.ec-desc p+p{margin-top:8px}
+.invited-speakers-list{background:none;border:0;border-top:1px solid var(--c-rule);border-radius:0;padding:12px 0 0;gap:10px 28px}
+.invited-speakers-list li{font-size:14px;line-height:1.4}
+.invited-speakers-list li strong{color:var(--c-ink);font-weight:600}
+.invited-speakers-list li span{font-size:13px}
+.card-actions-bar{margin-top:16px;gap:8px}
+.btn-card-action,.btn-card-action.cal,.btn-card-action.book{background:none;border:1px solid var(--c-rule-strong);border-radius:var(--r-md);color:var(--c-ink-2);font-size:13px;font-weight:500;min-height:36px;padding:6px 12px;transition:background-color .15s ease,border-color .15s ease,color .15s ease,transform 120ms var(--ease-out)}
+.btn-card-action.book{background:var(--c-uco);border-color:var(--c-uco);color:#fff;font-weight:600!important}
+.btn-card-action.webex{background:var(--c-ink);border-color:var(--c-ink);color:#fff}
+.meeting-info,.meeting-info[style]{background:none!important;border-left:2px solid var(--c-uco)!important;border-radius:0;margin:0 20px 20px 110px;padding:4px 0 4px 12px;font-size:13.5px;color:var(--c-ink-2)!important}
+.meeting-info strong{color:var(--c-ink)}
+
+/* vista conjunta de salas */
+.view-header{background:none;border-top:1px solid var(--c-rule);border-bottom:0;margin:0 20px 0 14px;padding:12px 0;font-size:11px;letter-spacing:.12em;color:var(--c-ink-3)}
+.session-full-grid{gap:0;background:none;margin:0 20px 20px 14px;border:1px solid var(--c-rule)}
+.sfg-col{background:#fff;border-left:1px solid var(--c-rule)}
+.sfg-col:first-child{border-left:0}
+.sfg-col-head{background:var(--c-paper-2);border-bottom:1px solid var(--c-rule);padding:10px 16px}
+.sfg-room{color:var(--c-ink);letter-spacing:.1em;font-size:11px}
+.paper-row{padding:14px 16px;border-bottom:1px solid var(--c-rule)}
+.paper-row:hover{background:none}
+.paper-row.is-special{background:none;box-shadow:inset 2px 0 0 var(--c-uco)}
+.paper-linea{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;gap:2px 8px;font-size:12px;letter-spacing:0;color:var(--c-ink-3);font-weight:500;margin-bottom:4px}
+.pl-time{font-weight:700;color:var(--c-uco);font-variant-numeric:tabular-nums;font-size:13px}
+.paper-title{font-size:14.5px;line-height:1.4}
+.paper-chair{font-size:13px;font-style:normal}
+.sfg-col-footer{background:none;border-top:0;padding:10px 16px 14px}
+/* los seis enlaces de sala llevan al mismo PDF: enlace discreto, no botón */
+.btn-room-pdf{background:none;border:0;border-radius:0;padding:4px 0;width:auto;min-height:0;justify-content:flex-start;text-align:left;font-size:12.5px;font-weight:500;color:var(--c-ink-3);text-decoration:underline;text-decoration-color:var(--c-rule-strong);text-underline-offset:3px;transition:color .15s ease}
+
+/* organización y pie */
+.pg-institucional-card{background:none;border:0;border-top:1px solid var(--c-ink);border-radius:0;box-shadow:none;padding:24px 0 0;margin-top:24px}
+.pg-institucional-card > div[style]{border-bottom:0!important;padding-bottom:0!important}
+.pg-inst-col h4{border-bottom:0;color:var(--c-ink-3);font-size:11px;letter-spacing:.12em;padding-bottom:0}
+.pg-inst-col p{font-size:13.5px}
+.pg-footer{background:var(--c-paper);max-width:1160px;margin:0 auto}
+.no-results-msg{background:none;border:1px solid var(--c-rule);border-radius:0}
+mark.hl{background:#f3e3b9;box-shadow:none}
+:focus-visible{outline:2px solid var(--c-uco);outline-offset:2px}
+
+/* sesión online: cuatro salas virtuales como lista, no como tarjetas */
+.online-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:0 28px;margin-top:14px;border-top:1px solid var(--c-rule)}
+.online-item{padding:10px 0;border-bottom:1px solid var(--c-rule);display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.oi-title{color:var(--c-ink);font-weight:600;font-size:14px}
+.oi-chair{color:var(--c-ink-3);font-size:13px}
+.online-item .btn-card-action{margin-top:6px}
+
+/* ---------- Estados: hover solo con ratón, pulsación en todo ---------- */
+@media (hover:hover) and (pointer:fine){
+  .btn-action:hover{background:var(--c-paper-2);border-color:var(--c-ink-3);color:var(--c-ink)}
+  .btn-action.pdf:hover{background:var(--c-uco-deep);border-color:var(--c-uco-deep);color:#fff}
+  .filter-btn:hover{color:var(--c-ink);background:none;border-color:transparent;border-bottom-color:var(--c-rule-strong)}
+  .filter-btn.active:hover{border-bottom-color:var(--c-uco)}
+  .lang-btn:not(.active):hover{color:var(--c-ink)}
+  .event-card:has(.ec-head.clickable):not(.open):hover{background:var(--c-paper-2)}
+  .event-card:has(.ec-head.clickable):hover .ec-chevron::after{border-color:var(--c-ink)}
+  .ec-head.clickable:hover .ec-title-text{color:var(--c-ink)}
+  .btn-card-action:hover,.btn-card-action.cal:hover{background:var(--c-paper-2);border-color:var(--c-ink-3);color:var(--c-ink)}
+  .btn-card-action.book:hover{background:var(--c-uco-deep);border-color:var(--c-uco-deep);color:#fff}
+  .btn-card-action.webex:hover{background:#000}
+  .btn-room-pdf:hover{background:none;color:var(--c-uco)}
+}
+/* sin ratón, anular los hover heredados de la hoja anterior */
+@media not all and (hover:hover){
+  .btn-action:hover,.filter-btn:hover,.btn-card-action:hover{background:inherit;color:inherit}
+  .btn-action.pdf:hover{background:var(--c-uco);color:#fff}
+  .filter-btn.active:hover{color:var(--c-ink)}
+}
+.btn-action:active,.btn-card-action:active,.lang-btn:active{transform:scale(.97)}
+.ec-head.clickable:active .ec-title-text{color:var(--c-uco)}
+
+@media (prefers-reduced-motion:reduce){
+  .event-card.open .ec-expand{transition:opacity 150ms ease}
+  @starting-style{.event-card.open .ec-expand{transform:none}}
+  .btn-action:active,.btn-card-action:active,.lang-btn:active{transform:none}
+  .ec-chevron::after{transition:none}
+}
+
+/* ---------- Tableta ---------- */
+@media (max-width:900px){
+  .pg-header{padding:24px 18px 18px}
+  .pg-controls-bar{padding:12px 16px 0}
+  .pg-main{padding:28px 16px 60px}
+  .ec-head,.event-card.open .ec-head{grid-template-columns:76px 1fr auto}
+  .ec-desc,.meeting-info,.meeting-info[style],.view-header,.session-full-grid{margin-left:0}
+  .ec-desc{padding:0 14px 18px}
+  .view-header,.session-full-grid,.meeting-info,.meeting-info[style]{margin-right:14px;margin-left:14px}
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width:640px){
+  body{font-size:15px}
+  .pg-header{padding:18px 16px 16px;gap:14px}
+  .pg-logos{margin-bottom:12px;gap:10px}
+  .pg-logo-uco{height:32px}.pg-logo-cig{height:44px}.pg-logo-tag{font-size:14px}
+  .pg-title{font-size:32px}
+  .pg-subtitle{font-size:13.5px;margin-top:8px}
+  .pg-header-right{flex-direction:row-reverse;justify-content:space-between;align-items:center;width:100%}
+  .pg-alert-badge{max-width:none;font-size:12px}
+  .pg-alert-badge span{display:none}               /* el título del aviso basta en móvil */
+  .lang-btn{min-height:40px;padding:6px 14px}
+  .pg-controls-bar{position:static;padding:12px 16px 0}
+  .search-wrapper{flex-basis:100%;min-width:100%}
+  .search-input{font-size:16px;min-height:44px}
+  .pg-actions-group{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:8px}
+  #btn-print{display:none}                         /* en el móvil imprime el mismo PDF que «Descargar» */
+  .btn-action{font-size:13px;min-height:44px;padding:8px 10px;white-space:normal;text-align:left;justify-content:flex-start;line-height:1.25}
+  .btn-action.pdf{grid-column:1 / -1;justify-content:center;order:-1}
+  .pch-sub{display:none}
+  .pg-filter-chips{margin:0 -16px;padding:0 6px}
+  .filter-btn{font-size:14px;padding:12px 10px 10px}
+  .pg-main{padding:24px 16px 48px}
+  .pre-congress-highlight{flex-direction:row;align-items:flex-start;padding:12px 0;margin-bottom:32px}
+  .pre-congress-highlight > .ec-badge{display:none}
+  .pch-left{gap:12px}
+  .pch-date-box{min-width:64px;padding:6px 8px}
+  .pch-date-num{font-size:17px}
+  .pch-sub{font-size:13.5px}
+  .day-section{margin-bottom:44px}
+  .day-chip,.day-chip.pre,.day-chip.visit{font-size:23px;text-align:left;padding:0;letter-spacing:0;line-height:1.2}
+  .ec-head,.event-card.open .ec-head{grid-template-columns:62px 1fr auto}
+  .ec-time{padding:14px 8px 14px 0}
+  .event-card.open .ec-time{padding-left:10px}
+  .ec-time-main{font-size:14.5px}
+  .ec-time-date{font-size:12px}
+  .ec-body{padding:13px 4px 13px 0}
+  .ec-title-text{font-size:15.5px}
+  .ec-toggle{padding:14px 0 14px 6px}
+  .ec-chevron{width:24px;height:24px}
+  .ec-desc{padding:0 12px 16px;font-size:14.5px}
+  .view-header,.session-full-grid,.meeting-info,.meeting-info[style]{margin-left:12px;margin-right:12px}
+  .view-header{flex-direction:column;align-items:flex-start}
+  .sfg-col{border-left:0;border-top:1px solid var(--c-rule)}
+  .sfg-col:first-child{border-top:0}
+  .card-actions-bar .btn-card-action{min-height:44px}
+}
+/* =====================================================================
+   IMPRESIÓN / PDF — documento oficial (A4)
+   Reglas en DESIGN_SYSTEM_RULES.md · sección «Impresión»
+   ===================================================================== */
+.print-only{display:none}
+@page{size:A4 portrait;margin:16mm 15mm 18mm}
 @media print{
-  *,*::before,*::after{background:transparent!important;box-shadow:none!important;text-shadow:none!important;backdrop-filter:none!important}
-  html,body{background:#fff!important;color:#000;font-size:9.5pt;line-height:1.4}
-  .pg-controls-bar,.lang-switcher,.pg-alert-badge,.ec-toggle,.card-actions-bar,.btn-card-action,.btn-action,.sfg-col-footer,#no-results,.search-status{display:none!important}
-  .pg-header{display:block;padding:0 0 6mm;border-bottom:2px solid var(--c-uco)}
-  .pg-title{font-size:24pt;line-height:1.1}
-  .pg-main{max-width:none;padding:0}
-  .pre-congress-highlight{border:1px solid #888!important;border-left:4px solid var(--c-uco)!important;margin:4mm 0;padding:3mm 4mm}
-  .day-section{margin:6mm 0 0}
-  /* siempre se imprime el programa completo y desplegado, aunque haya un filtro o una búsqueda activa */
-  .day-section,.event-card,.ec-expand{display:block!important}
-  mark.hl{background:transparent!important;padding:0}
-  .event-card{border:1px solid #bbb!important;border-radius:0;margin-bottom:3mm;break-inside:avoid}
-  .ec-expand{display:block!important;border-top:1px solid #ddd}
-  .ec-desc{padding:2mm 4mm 3mm;font-size:9pt}
-  .session-full-grid{display:block;gap:0}
-  .sfg-col{border-top:1px solid #999}
-  /* formato de impresión: logos, etiquetas legibles sin fondo y cortes de página limpios */
   html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .pg-logos{margin-bottom:4mm}
-  .pg-logo-uco{height:13mm}
-  .pg-logo-cig{height:18mm}
-  .pg-header-right{display:none!important}
-  .day-label{margin:4mm 0 3mm;break-after:avoid}
-  .day-label::before,.day-label::after{background:#999!important}
-  .day-chip{color:var(--c-uco)!important;border:1.5px solid var(--c-uco);font-size:9pt;white-space:normal}
-  .day-chip.pre{color:#3b3a4a!important;border-color:#3b3a4a}
-  .day-chip.visit{color:var(--c-gold-dark)!important;border-color:var(--c-gold-dark)}
-  .pch-date-box{color:var(--c-uco)!important;border:1px solid var(--c-uco)}
-  .ec-badge{border:1px solid currentColor!important}
-  .b-sessions{color:var(--c-uco)!important}
-  .ec-head{grid-template-columns:24mm 1fr;min-height:0}
-  .ec-time{border-right:1px solid #ccc;padding:2mm}
-  .ec-body{padding:2mm 3mm}
-  .ec-title-text{font-size:10.5pt}
-  .ec-loc{font-size:8.5pt}
-  .view-header{font-size:8.5pt;padding:2mm 3mm}
-  .sfg-col{break-inside:auto}
-  /* las tarjetas largas pueden continuar en la página siguiente; su cabecera y cada fila no se parten */
-  .event-card:has(.session-full-grid),.event-card:has(.invited-speakers-list){break-inside:auto}
-  .ec-head,.view-header,.sfg-col-head{break-inside:avoid;break-after:avoid}
-  .invited-speakers-list li,.ec-desc p,.ec-desc li{break-inside:avoid}
-  .sfg-col-head{padding:2mm 3mm;border-bottom:1px solid var(--c-uco)}
-  .paper-row{padding:1.5mm 3mm;break-inside:avoid}
-  .paper-title{font-size:9.5pt}
-  .meeting-info{margin:2mm 4mm 3mm;padding:2mm 3mm;border:1px solid #ccc!important}
-  mark.hl{box-shadow:none!important}
+  html,body{background:#fff!important;color:#1d1b18;font-size:8.6pt;line-height:1.38}
+  *,*::before,*::after{box-shadow:none!important;text-shadow:none!important;backdrop-filter:none!important;transition:none!important;animation:none!important}
   a{color:inherit!important;text-decoration:none!important}
-  .pg-institucional-card{break-inside:avoid;padding:4mm;margin-top:6mm;border:1px solid #bbb!important}
-  .pg-footer{display:block;padding:4mm 0 0;border-top:1px solid #999;font-size:8pt}
-  /* ===== Impresión compacta, como en la web: las tres salas una al lado de otra ===== */
-  html,body{font-size:8.5pt;line-height:1.3}
-  .pg-header{padding:0 0 3mm}
-  .pg-title{font-size:18pt}
-  .pg-logos{margin-bottom:2mm}
-  .pg-logo-uco{height:10mm}
-  .pg-logo-cig{height:14mm}
-  .pre-congress-highlight{margin:3mm 0;padding:2mm 3mm}
-  .day-section{margin:3mm 0 0}
-  .day-label{margin:2mm 0 2mm}
-  .event-card{margin-bottom:2mm}
-  .ec-head{grid-template-columns:20mm 1fr}
-  .ec-time{padding:1.5mm}
-  .ec-time-main{font-size:11pt}
-  .ec-body{padding:1.5mm 3mm;gap:1mm 3mm;flex-direction:row;flex-wrap:wrap;align-items:center}
-  .ec-title-text{font-size:9.5pt}
-  .ec-loc{font-size:7.5pt;margin-top:0}
-  .ec-desc{padding:1.5mm 3mm 2mm;font-size:8pt}
-  .ec-desc ul{margin:1mm 0 1mm 5mm!important;font-size:8pt!important}
-  .view-header{padding:1.2mm 3mm;font-size:7.5pt}
-  .session-full-grid{display:grid!important;grid-template-columns:repeat(3,1fr);gap:0;break-inside:avoid}
-  .sfg-col,.sfg-col-body{break-inside:avoid}
-  .sfg-col{border-top:0;border-left:1px solid #bbb}
+  .print-only{display:block}
+  /* fuera: todo lo interactivo */
+  .pg-controls-bar,.pg-header-right,.ec-toggle,.card-actions-bar,.sfg-col-footer,#no-results,.search-status,.btn-reset{display:none!important}
+
+  /* ---- Portada / cabecera ---- */
+  .pg-header{display:block;max-width:none;padding:0 0 5mm;margin:0;border-bottom:.6pt solid #1d1b18;background:none}
+  .pg-logos{margin-bottom:6mm;gap:4mm}
+  .pg-logo-uco{height:12mm}.pg-logo-cig{height:17mm}.pg-logo-sep{height:12mm}
+  .pg-logo-tag{font-size:12pt}
+  .pg-eyebrow{font-size:7.5pt;letter-spacing:.16em;margin-bottom:2mm}
+  .pg-title{font-size:30pt;line-height:1;font-weight:600}
+  .pg-subtitle{font-size:9pt;margin-top:3mm;color:#46423b}
+  .pg-subtitle a{font-weight:600;color:#1d1b18!important}
+  .print-version{font-size:7.5pt;color:#6e695f;margin-top:1.5mm}
+
+  .pg-main{max-width:none;padding:0;margin:0}
+
+  /* ---- Programa oficial (resumen) ---- */
+  .print-overview{margin:6mm 0 7mm;break-inside:avoid}
+  .po-title{font-family:var(--f-display);font-size:14pt;font-weight:600;margin-bottom:2mm}
+  .po-table{width:100%;border-collapse:collapse;font-size:7.6pt;line-height:1.3}
+  .po-table th{font-size:6.8pt;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:#6e695f;text-align:left;padding:1.4mm 2mm;border-bottom:.6pt solid #1d1b18}
+  .po-table td{vertical-align:top;padding:1.8mm 2mm;border-bottom:.3pt solid #d8d1c4}
+  .po-table td:first-child{width:24mm;font-weight:600;white-space:nowrap}
+  .po-table td:first-child small{display:block;font-weight:400;color:#6e695f;font-size:6.8pt;letter-spacing:.04em}
+  .po-item{display:block;margin-bottom:.6mm}
+  .po-item b{font-weight:600;color:var(--c-uco);font-variant-numeric:tabular-nums;margin-right:1.2mm}
+
+  /* ---- Nota previa ---- */
+  .pre-congress-highlight{display:flex;flex-wrap:nowrap;align-items:center;gap:4mm;margin:0 0 6mm;padding:2.5mm 0;border:0!important;border-top:.3pt solid #d8d1c4!important;border-bottom:.3pt solid #d8d1c4!important;background:none}
+  .pch-left{gap:4mm;min-width:0}
+  .pch-date-box{border:.5pt solid #bdb4a4!important;padding:1.2mm 2.5mm;min-width:17mm;border-radius:1mm}
+  .pch-date-day{font-size:6.5pt}.pch-date-num{font-size:12pt}.pch-date-time{font-size:7pt;margin-top:.5mm;padding-top:.5mm}
+  .pch-kicker{font-size:6.8pt}.pch-title{font-size:9.5pt}.pch-sub{font-size:7.8pt}
+  .pre-congress-highlight > .ec-badge{font-size:6.5pt}
+
+  /* ---- Días ---- */
+  .day-section{display:block!important;margin:0 0 7mm}
+  #sec-miercoles,#sec-jueves,#sec-viernes,#sec-sabado{break-before:page}
+  .day-label{margin:0 0 1mm;padding:0 0 1.6mm;border-bottom:.8pt solid #1d1b18!important;break-after:avoid}
+  .day-chip,.day-chip.pre,.day-chip.visit{font-size:15pt!important;color:#1d1b18!important;border:0!important;padding:0!important;line-height:1.15}
+
+  /* ---- Actos ---- */
+  .event-card,.event-card.open{display:block!important;border:0!important;border-bottom:.3pt solid #d8d1c4!important;border-radius:0;margin:0;background:none!important;break-inside:avoid}
+  .event-card:has(.session-full-grid),.event-card:has(.invited-speakers-list){break-inside:auto}
+  .ec-head,.event-card.open .ec-head{display:grid;grid-template-columns:19mm 1fr;min-height:0;break-after:avoid}
+  .ec-time,.event-card.open .ec-time{padding:2.2mm 2mm 2.2mm 0!important;border:0;background:none}
+  .ec-time-main{font-size:9.5pt;font-weight:700}
+  .ec-time-date{font-size:7pt;margin-top:.3mm}
+  .ec-body{padding:2.2mm 0;gap:.6mm;flex-direction:column;align-items:flex-start}
+  .ec-badge{font-size:6.3pt!important;letter-spacing:.14em}
+  .ec-title-text{font-size:9.6pt;line-height:1.3}
+  .ec-loc{font-size:7.6pt;margin-top:0}
+  .ec-pill-restricted{font-size:7.4pt}
+  .ec-pill-restricted::before{width:2.6mm;height:2.6mm}
+  .ec-expand{display:block!important;border:0}
+  .ec-desc{padding:0 0 2.6mm 19mm!important;font-size:8pt;color:#46423b}
+  .ec-desc p+p{margin-top:1mm}
+  .ec-desc ul{margin:1mm 0 0 4mm!important;font-size:8pt!important}
+  .invited-speakers-list{margin:1.8mm 0 0;padding:1.6mm 0 0;border-top:.3pt solid #e3ddd2;gap:.6mm 6mm;grid-template-columns:1fr 1fr}
+  .invited-speakers-list li,.invited-speakers-list li span{font-size:7.6pt;line-height:1.3;break-inside:avoid}
+  .meeting-info,.meeting-info[style]{margin:0 0 2.6mm 19mm!important;padding:.6mm 0 .6mm 2.5mm;font-size:7.6pt;border-left:.8pt solid var(--c-uco)!important}
+
+  /* ---- Mesas paralelas: tres salas en columnas ---- */
+  .view-header{margin:0 0 0 19mm!important;padding:1.2mm 0;border-top:.3pt solid #e3ddd2;font-size:6.6pt;display:flex;justify-content:space-between}
+  .view-header span[style]{font-size:6.6pt!important}
+  .session-full-grid{display:grid!important;grid-template-columns:repeat(3,1fr);margin:0 0 3mm 19mm!important;border:.4pt solid #cfc7b8;gap:0;background:none}
+  .sfg-col{background:none;border:0;border-left:.4pt solid #cfc7b8;break-inside:auto}
   .sfg-col:first-child{border-left:0}
-  .sfg-col-head{padding:1.2mm 2.5mm}
-  .sfg-room{font-size:7.5pt}
-  .paper-row{padding:1.2mm 2.5mm}
-  .paper-linea{font-size:7pt;margin-bottom:.5mm}
-  .paper-title{font-size:8pt;line-height:1.25;margin-bottom:.5mm}
-  .paper-chair{font-size:7pt;line-height:1.25}
-  .invited-speakers-list{margin:1.5mm 0;padding:1.5mm 3mm;gap:.5mm 4mm}
-  .invited-speakers-list li,.invited-speakers-list li span{font-size:7.5pt}
-  .meeting-info{margin:1.5mm 3mm 2mm;padding:1.5mm 3mm;font-size:7.5pt}
-  .pg-institucional-card{padding:3mm;margin-top:4mm}
-  .pg-inst-grid{gap:3mm;margin-top:2mm}
-  .pg-inst-col p,.pg-inst-col li{font-size:7.5pt}
+  .sfg-col-head{padding:1.4mm 2.2mm;background:#f2eee6!important;border-bottom:.4pt solid #cfc7b8;break-after:avoid}
+  .sfg-room{font-size:6.6pt;letter-spacing:.12em}
+  .paper-row{padding:1.6mm 2.2mm;border-bottom:.3pt solid #e3ddd2;break-inside:avoid}
+  .paper-row:last-child{border-bottom:0}
+  .paper-row.is-special{box-shadow:none!important;border-left:.9pt solid var(--c-uco)}
+  .paper-linea{font-size:6.8pt;margin-bottom:.4mm;gap:0 1.5mm}
+  .pl-time{font-size:7.4pt}
+  .paper-title{font-size:7.9pt;line-height:1.28;margin-bottom:.4mm}
+  .paper-chair{font-size:7pt;line-height:1.28}
+
+  /* ---- Organización y pie ---- */
+  .pg-institucional-card{break-before:auto;break-inside:avoid;margin-top:6mm;padding:3mm 0 0;border:0;border-top:.8pt solid #1d1b18}
+  .pg-institucional-card h3{font-size:13pt!important}
+  .pg-institucional-card p[style]{font-size:7.6pt!important}
+  .pg-inst-grid{grid-template-columns:1fr 1fr;gap:3mm 8mm;margin-top:2mm}
+  .pg-inst-col h4{font-size:6.6pt;margin-bottom:1mm}
+  .pg-inst-col p{font-size:7.6pt;line-height:1.4}
+  .pg-footer{display:block;max-width:none;padding:3mm 0 0;margin-top:5mm;border-top:.3pt solid #d8d1c4;font-size:7pt;background:none}
+  .pg-footer > div{display:inline}
+  .pg-footer > div + div::before{content:' · '}
+  mark.hl{background:none!important;padding:0}
+}
+@media print{
+  .btn-card-action,.card-actions-bar{display:none!important}
+  .session-full-grid{break-inside:avoid}
+  .view-header{break-after:avoid}
+  .online-grid{grid-template-columns:1fr 1fr;gap:0 6mm;margin:1.5mm 0 0;border-top:.3pt solid #e3ddd2}
+  .online-item{padding:1.4mm 0;border-bottom:.3pt solid #e3ddd2;break-inside:avoid}
+  .oi-title{font-size:8pt}.oi-chair{font-size:7.4pt}
+  .print-breakdown{break-before:page;break-after:avoid;font-family:var(--f-display);font-size:22pt;font-weight:600;line-height:1.1;color:#1d1b18;margin:0 0 5mm}
+  .print-breakdown + .pre-congress-highlight{margin-top:0}
 }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="m7 9 5-5 5 5M7 15l5 5 5-5"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5M7 17H5a1 1 0 0 1-1-1v-5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5a1 1 0 0 1-1 1h-2M7 14h10v6H7z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7zM14 3v4h4M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="1"/><path d="m16 10 5-3v10l-5-3"/></symbol>
+    <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 7h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4z"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
+  </defs>
+</svg>
 
 <header class="pg-header">
   <div class="pg-header-left">
@@ -334,7 +613,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
       <img class="pg-logo-cig" src="https://leogallardo97-bit.github.io/cigestur-2026-programa-general/assets/logo_cigestur.png" alt="CIGESTUR">
       <span class="pg-logo-tag">VI CIGESTUR<br>2026</span>
     </div>
-    <p class="pg-eyebrow">🏛️ <span data-i18n="header-eyebrow">Universidad de Córdoba · 17 al 21 Noviembre 2026</span></p>
+    <p class="pg-eyebrow"><span data-i18n="header-eyebrow">Universidad de Córdoba · 17 al 21 Noviembre 2026</span></p>
     <h1 class="pg-title"><span data-i18n="header-title-1">Programa General</span><br><em data-i18n="header-title-2">VI CIGESTUR</em></h1>
     <p class="pg-subtitle">
       <span data-i18n="header-venue-label">Sede Principal:</span>
@@ -347,7 +626,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
       <button class="lang-btn" id="btn-lang-en" onclick="setLanguage('en')" lang="en" aria-pressed="false">EN</button>
     </div>
     <div class="pg-alert-badge">
-      <strong data-i18n="badge-preliminary-title">⚠️ Programa Oficial en Desarrollo</strong>
+      <strong data-i18n="badge-preliminary-title">Programa Oficial en Desarrollo</strong>
       <span data-i18n="badge-preliminary-desc">Horarios, ponencias y distribución en salas actualizados según el documento oficial de comités.</span>
     </div>
   </div>
@@ -357,21 +636,21 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
   <div class="pg-controls-inner">
     <div class="pg-controls-top-row">
       <div class="search-wrapper">
-        <svg aria-hidden="true" class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <svg aria-hidden="true" class="search-icon"><use href="#i-search"/></svg>
         <input type="search" id="live-search" class="search-input" placeholder="Buscar por ponente, línea, sala, universidad o título..." aria-label="Buscar en el programa" autocomplete="off" spellcheck="false">
       </div>
       <div class="pg-actions-group">
         <button class="btn-action" onclick="toggleAllCards()" id="btn-toggle-all" aria-pressed="false">
-          ▾ <span data-i18n="btn-expand-all">Expandir / Colapsar Todo</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-expand"/></svg><span data-i18n="btn-expand-all">Expandir / Colapsar Todo</span>
         </button>
         <button class="btn-action" type="button" onclick="printProgram()" id="btn-print">
-          🖨️ <span data-i18n="btn-print">Imprimir programa</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-print"/></svg><span data-i18n="btn-print">Imprimir programa</span>
         </button>
         <a class="btn-action pdf" href="https://leogallardo97-bit.github.io/cigestur-2026-programa-general/Programa_General_VI_CIGESTUR_2026.pdf" target="_blank" rel="noopener" download="Programa_General_VI_CIGESTUR_2026.pdf" id="btn-download">
-          ⬇ <span data-i18n="btn-download-program">Descargar programa (PDF)</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="btn-download-program">Descargar programa (PDF)</span>
         </a>
         <a class="btn-action" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">
-          📄 <span data-i18n="btn-pdf">Programa de comunicaciones (PDF)</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-file"/></svg><span data-i18n="btn-pdf">Programa de comunicaciones (PDF)</span>
         </a>
       </div>
     </div>
@@ -395,6 +674,9 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
     <button type="button" class="btn-action btn-reset" onclick="resetFilters()" data-i18n="btn-reset-filters">Reiniciar búsqueda y filtros</button>
   </div>
 
+  <section class="print-only print-overview" id="print-overview" aria-hidden="true"></section>
+  <h2 class="print-only print-breakdown" data-i18n="print-breakdown">Desglose del programa</h2>
+
   <!-- NOTA PREVIA AL PROGRAMA: JUEVES 12 NOVIEMBRE -->
   <aside class="pre-congress-highlight" aria-label="Nota destacada previa al programa">
     <div class="pch-left">
@@ -404,9 +686,9 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
         <div class="pch-date-time" data-i18n="pre-note-time">10:00 h</div>
       </div>
       <div class="pch-content">
-        <span class="pch-kicker" data-i18n="pre-note-kicker">Pre-Congreso · Nota Previa al Programa · 10:00 h</span>
+        <span class="pch-kicker" data-i18n="pre-note-kicker">Pre-Congreso · Nota Previa al Programa</span>
         <div class="pch-title" data-i18n="pre-note-title">Presentación a Prensa del Programa del Congreso</div>
-        <div class="pch-sub" data-i18n="pre-note-sub">Inicio a las 10:00 h · Acto institucional de presentación oficial ante los medios de comunicación previo al inicio del VI CIGESTUR 2026.</div>
+        <div class="pch-sub" data-i18n="pre-note-sub">Acto institucional de presentación oficial ante los medios de comunicación previo al inicio del VI CIGESTUR 2026.</div>
       </div>
     </div>
     <span class="ec-badge b-academic" data-i18n="badge-inst">Institucional</span>
@@ -420,9 +702,8 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
 
     <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time"><div class="ec-time-date">17 Nov</div><div class="ec-time-main">12:00</div></div>
+        <div class="ec-time"><div class="ec-time-main">12:00</div></div>
         <div class="ec-body">
-          <span class="ec-badge b-academic" data-i18n="badge-academic">Académico</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-17-title">Visita a la Facultad de Ciencias del Trabajo · Llegada y acogida</div>
             <div class="ec-loc"><span data-i18n="ev-17-loc">Facultad de Ciencias del Trabajo (Universidad de Córdoba, C. Adarve, 30, Centro, 14001 Córdoba)</span></div>
@@ -434,7 +715,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
         <div class="ec-desc">
           <p data-i18n="ev-17-desc">Llegada de parte de los participantes y acogida de las delegaciones y universidades internacionales invitadas en la Facultad de Ciencias del Trabajo.</p>
           <div class="card-actions-bar">
-            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Facultad+de+Ciencias+del+Trabajo+Universidad+de+C%C3%B3rdoba+C.+Adarve+30+14001+C%C3%B3rdoba" target="_blank" rel="noopener">📍 <span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
+            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Facultad+de+Ciencias+del+Trabajo+Universidad+de+C%C3%B3rdoba+C.+Adarve+30+14001+C%C3%B3rdoba" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
           </div>
         </div>
       </div>
@@ -442,9 +723,8 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
 
     <article class="event-card">
       <div class="ec-head">
-        <div class="ec-time"><div class="ec-time-date">17 Nov</div><div class="ec-time-main">12:30</div></div>
+        <div class="ec-time"><div class="ec-time-main">12:30</div></div>
         <div class="ec-body">
-          <span class="ec-badge b-academic" data-i18n="badge-academic">Académico</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-17-book-title">Presentación de libro "Satisfacción en la visita turística y aspectos de sostenibilidad"</div>
             <div class="ec-loc"><span data-i18n="ev-17-loc">Facultad de Ciencias del Trabajo (Universidad de Córdoba, C. Adarve, 30, Centro, 14001 Córdoba)</span></div>
@@ -476,7 +756,6 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
         <div class="ec-time"><div class="ec-time-main">10:00</div><div class="ec-time-date">a 11:30</div></div>
         <div class="ec-body">
-          <span class="ec-badge b-academic" data-i18n="badge-academic">Académico</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-18-conf-title">Conferencias de Universidades Invitadas</div>
             <div class="ec-loc"><span data-i18n="ev-18-conf-loc">Salón de Grados de la Facultad de Derecho y CCEE y Empresariales</span></div>
@@ -500,8 +779,8 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <li><strong>Sarly Quiñonez &amp; Yineth Robledo</strong> – <span>Universidad Tecnológica del Chocó, Colombia</span></li>
           </ul>
           <div class="card-actions-bar">
-            <a class="btn-card-action" href="https://www.uco.es/derechoyccee/es/presentacion.html" target="_blank" rel="noopener">🌐 <span data-i18n="btn-facultad-web">Presentación Facultad de Derecho y CCEE</span></a>
-            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Facultad+de+Derecho+y+Ciencias+Economicas+y+Empresariales+UCO+Puerta+Nueva+Cordoba" target="_blank" rel="noopener">📍 <span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
+            <a class="btn-card-action" href="https://www.uco.es/derechoyccee/es/presentacion.html" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><span data-i18n="btn-facultad-web">Presentación Facultad de Derecho y CCEE</span></a>
+            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Facultad+de+Derecho+y+Ciencias+Economicas+y+Empresariales+UCO+Puerta+Nueva+Cordoba" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
           </div>
         </div>
       </div>
@@ -522,9 +801,9 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
 
     <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time"><div class="ec-time-date">18 Nov</div><div class="ec-time-main">13:20</div></div>
+        <div class="ec-time"><div class="ec-time-main">13:20</div></div>
         <div class="ec-body">
-          <span class="ec-badge b-included" data-i18n="badge-included">✓ Incluido</span>
+          <span class="ec-badge b-included" data-i18n="badge-included">Incluido</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-18-arch-title">Visita al Museo Arqueológico de Córdoba</div>
             <div class="ec-loc"><span data-i18n="ev-18-arch-loc">Plaza de Jerónimo Páez, 7 (Centro Histórico)</span></div>
@@ -536,8 +815,8 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
         <div class="ec-desc">
           <p data-i18n="ev-18-arch-desc">Visita y recorrido libre por una de las colecciones arqueológicas más destacadas de España, ubicada en el renacentista Palacio de los Páez de Castillejo y los restos in situ del teatro romano de Colonia Patricia Corduba.</p>
           <div class="card-actions-bar">
-            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Museo+Arqueol%C3%B3gico+de+C%C3%B3rdoba+Plaza+Jeronimo+Paez+7" target="_blank" rel="noopener">📍 <span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
-            <a class="btn-card-action" href="https://www.museosdeandalucia.es/web/museoarqueologicodecordoba" target="_blank" rel="noopener">🌐 <span data-i18n="btn-web-museum">Web Oficial del Museo</span></a>
+            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Museo+Arqueol%C3%B3gico+de+C%C3%B3rdoba+Plaza+Jeronimo+Paez+7" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
+            <a class="btn-card-action" href="https://www.museosdeandalucia.es/web/museoarqueologicodecordoba" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><span data-i18n="btn-web-museum">Web Oficial del Museo</span></a>
           </div>
         </div>
       </div>
@@ -557,7 +836,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
 
     <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time"><div class="ec-time-date">18 Nov</div><div class="ec-time-main">18:30</div></div>
+        <div class="ec-time"><div class="ec-time-main">18:30</div></div>
         <div class="ec-body">
           <span class="ec-badge b-close" data-i18n="badge-social">Programa social</span>
           <div>
@@ -576,13 +855,13 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
 
     <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time"><div class="ec-time-date">18 Nov</div><div class="ec-time-main">19:30</div></div>
+        <div class="ec-time"><div class="ec-time-main">19:30</div></div>
         <div class="ec-body">
           <span class="ec-badge b-academic" data-i18n="badge-inst">Institucional</span>
           <div>
             <div class="ec-title-row">
               <div class="ec-title-text" data-i18n="ev-18-comedias-title">Cóctel de bienvenida de la organización — Casa de las Comedias</div>
-              <span class="ec-pill-restricted" data-i18n="badge-restricted-uco">🔒 Acceso restringido a Universidades Internacionales Colaboradoras y Organización UCO</span>
+              <span class="ec-pill-restricted" data-i18n="badge-restricted-uco">Acceso restringido a Universidades Internacionales Colaboradoras y Organización UCO</span>
             </div>
             <div class="ec-loc"><span data-i18n="ev-18-comedias-loc">Calleja de las Flores, 4, Centro, 14003 Córdoba</span></div>
           </div>
@@ -593,7 +872,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
         <div class="ec-desc">
           <p data-i18n="ev-18-comedias-desc">Encuentro institucional de bienvenida en la emblemática Casa de las Comedias (Calleja de las Flores, 4). Celebración en salón interior, formato cóctel de pie con menú concertado para universidades colaboradoras, ponentes internacionales y comité organizador.</p>
           <div class="card-actions-bar">
-            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Casa+de+las+Comedias+Calleja+de+las+Flores+4+Cordoba" target="_blank" rel="noopener">📍 <span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
+            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Casa+de+las+Comedias+Calleja+de+las+Flores+4+Cordoba" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
           </div>
         </div>
       </div>
@@ -647,7 +926,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
           <p><strong>10:00 – 10:45 h:</strong> Inauguración institucional con autoridades académicas y autonómicas.</p>
           <p style="margin-top:8px;"><strong>10:45 – 11:20 h:</strong> Performance Cultural: <em>"El Flamenco: patrimonio, tradición e imagen"</em> — Performance de Trajes de Flamenca, Mantones y Sombrero Cordobés a cargo de <strong>Teresa Ávalos</strong>.</p>
           <div class="card-actions-bar">
-            <a class="btn-card-action cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Inauguraci%C3%B3n+VI+CIGESTUR+2026&dates=20261119T090000Z/20261119T102000Z&details=Inauguraci%C3%B3n+y+Performance+Flamenco+con+Teresa+%C3%81valos&location=Rectorado+UCO,+C%C3%B3rdoba">📅 <span data-i18n="btn-add-gcal">Añadir a Google Calendar</span></a>
+            <a class="btn-card-action cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Inauguraci%C3%B3n+VI+CIGESTUR+2026&dates=20261119T090000Z/20261119T102000Z&details=Inauguraci%C3%B3n+y+Performance+Flamenco+con+Teresa+%C3%81valos&location=Rectorado+UCO,+C%C3%B3rdoba"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg><span data-i18n="btn-add-gcal">Añadir a Google Calendar</span></a>
           </div>
         </div>
       </div>
@@ -656,8 +935,8 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
     <!-- Mesas Paralelas Mañana Jueves -->
     <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time" style="background:var(--c-uco-pale);border-color:var(--c-uco)">
-          <div class="ec-time-main" style="font-size:18px">11:30</div>
+        <div class="ec-time">
+          <div class="ec-time-main">11:30</div>
           <div class="ec-time-date">hasta 14:00</div>
         </div>
         <div class="ec-body">
@@ -679,18 +958,18 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-actos">Salón de Actos</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 4 (11:30 – 13:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">11:30–13:00</span><span class="pl-label">Sesión 4</span></div>
                 <div class="paper-title">Patrimonio y desarrollo local a través de itinerarios y rutas culturales</div>
                 <div class="paper-chair">Modera: Fernando J. Lara de Vicente</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 6 (13:00 – 14:30 h)</div>
+                <div class="paper-linea"><span class="pl-time">13:00–14:30</span><span class="pl-label">Sesión 6</span></div>
                 <div class="paper-title">Turismo, Patrimonio y Traducción</div>
                 <div class="paper-chair">Moderan: Carmen Balbuena Torezano y José María Castellano</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Salón de Actos]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Salón de Actos]</a>
             </div>
           </div>
 
@@ -698,28 +977,28 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-mudejar">Sala Mudéjar</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 2 (11:30 – 13:30 h)</div>
+                <div class="paper-linea"><span class="pl-time">11:30–13:30</span><span class="pl-label">Sesión 2</span></div>
                 <div class="paper-title">Planificación turística del patrimonio en destinos urbanos</div>
                 <div class="paper-chair">Modera: Manuel Rivera Mateos</div>
               </div>
-              <div class="paper-row" style="background:#fffcf2;border-top:1px dashed var(--c-gold);">
-                <div class="paper-linea" style="color:var(--c-gold-dark);">Ponente invitado (11:30 – 12:15 h)</div>
+              <div class="paper-row is-special">
+                <div class="paper-linea"><span class="pl-time">11:30–12:15</span><span class="pl-label">Ponente invitado</span></div>
                 <div class="paper-title">“Petra and its tourism and heritage management”</div>
                 <div class="paper-chair">Dr. Ismaiel Naser Abuamoud · Dean, School of Archaeology and Tourism, The University of Jordan</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 3 (13:00 – 15:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">13:00–15:00</span><span class="pl-label">Sesión 3</span></div>
                 <div class="paper-title">Planificación turística del patrimonio en destinos rurales y de naturaleza</div>
                 <div class="paper-chair">Moderan: José Rafael Caro y Pablo Esteban González</div>
               </div>
-              <div class="paper-row" style="background:#fffcf2;border-top:1px dashed var(--c-gold);">
-                <div class="paper-linea" style="color:var(--c-gold-dark);">Presentación (13:30 – 14:00 h)</div>
+              <div class="paper-row is-special">
+                <div class="paper-linea"><span class="pl-time">13:30–14:00</span><span class="pl-label">Presentación</span></div>
                 <div class="paper-title">“Observatorio para la Sostenibilidad Turística Local de Andalucía y su alineación con los principios de la sostenibilidad, en sus dimensiones ambiental, social y económica”</div>
                 <div class="paper-chair">Mª Dolores Guerrero Baena y Paqui Castilla Polo · Universidad de Córdoba y Universidad de Jaén</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Sala Mudéjar]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Sala Mudéjar]</a>
             </div>
           </div>
 
@@ -727,19 +1006,19 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-consejo">Sala Consejo de Gobierno</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 18 (11:30 – 14:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">11:30–14:00</span><span class="pl-label">Sesión 18</span></div>
                 <div class="paper-title">Patrimonio Alimentario y Comercialización Turística</div>
                 <div class="paper-chair">Modera: Blanca García-Henche</div>
               </div>
-              <div class="paper-row" style="background:#fffcf2;border-top:1px dashed var(--c-gold);">
-                <div class="paper-linea" style="color:var(--c-gold-dark);">Experiencia Oleoturística (12:00 h)</div>
+              <div class="paper-row is-special">
+                <div class="paper-linea"><span class="pl-time">12:00</span><span class="pl-label">Experiencia Oleoturística</span></div>
                 <div class="paper-title">Cata de aceite dirigida: “Oleoturismo como recurso territorial”</div>
                 <div class="paper-chair">Imparten: Oficina de Turismo de Priego de Córdoba · D.O.P. Priego de Córdoba</div>
                 <div class="paper-chair">Degustación técnica de aceite de oliva virgen extra (AOVE) para congresistas</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Sala Consejo de Gobierno]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Sala Consejo de Gobierno]</a>
             </div>
           </div>
         </div>
@@ -761,8 +1040,8 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
     <!-- Mesas Paralelas Tarde Jueves -->
     <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time" style="background:var(--c-uco-pale);border-color:var(--c-uco)">
-          <div class="ec-time-main" style="font-size:18px">16:00</div>
+        <div class="ec-time">
+          <div class="ec-time-main">16:00</div>
           <div class="ec-time-date">hasta 19:30</div>
         </div>
         <div class="ec-body">
@@ -784,18 +1063,18 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-actos">Salón de Actos</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 16 y 13 (16:00 – 17:30 h)</div>
+                <div class="paper-linea"><span class="pl-time">16:00–17:30</span><span class="pl-label">Sesión 16 y 13</span></div>
                 <div class="paper-title">Turismo patrimonial, arquitectura y urbanismo</div>
                 <div class="paper-chair">Modera: Daniel Barrera Fernández</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 10 (17:30 – 19:30 h)</div>
+                <div class="paper-linea"><span class="pl-time">17:30–19:30</span><span class="pl-label">Sesión 10</span></div>
                 <div class="paper-title">Turismo activo y deportivo en destinos patrimoniales</div>
                 <div class="paper-chair">Modera: José F. Ramos-Ruiz</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Salón de Actos]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Salón de Actos]</a>
             </div>
           </div>
 
@@ -803,18 +1082,18 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-mudejar">Sala Mudéjar</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 2 (16:00 – 18:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">16:00–18:00</span><span class="pl-label">Sesión 2</span></div>
                 <div class="paper-title">Gestión y planificación en Sitios Patrimonio UNESCO</div>
                 <div class="paper-chair">Modera: Carlos Alberto Hiriart Pardo</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 7 (18:00 – 19:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">18:00–19:00</span><span class="pl-label">Sesión 7</span></div>
                 <div class="paper-title">Turismo sostenible y accesible para el patrimonio · ODS</div>
                 <div class="paper-chair">Moderan: Rocío Muñoz Benito y Manuel Pérez Priego</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Sala Mudéjar]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Sala Mudéjar]</a>
             </div>
           </div>
 
@@ -822,18 +1101,18 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-consejo">Sala Consejo de Gobierno</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 7 (16:00 – 18:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">16:00–18:00</span><span class="pl-label">Sesión 7</span></div>
                 <div class="paper-title">Turismo Religioso y Patrimonio Vivo</div>
                 <div class="paper-chair">Moderan: Amalia Hidalgo-Fernández, Gema Gómez Casero y Rogelio Martínez Cárdenas</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 7 (18:00 – 19:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">18:00–19:00</span><span class="pl-label">Sesión 7</span></div>
                 <div class="paper-title">El turismo en la era de las RRSS: de la inspiración a la decisión</div>
                 <div class="paper-chair">Modera: Lucía García García</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Sala Consejo de Gobierno]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Sala Consejo de Gobierno]</a>
             </div>
           </div>
         </div>
@@ -843,12 +1122,12 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
     <!-- Sesión On-Line Internacional Jueves -->
     <article class="event-card" style="border-color:#bfe0f9;">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time" style="background:#e8f4fd;">
-          <div class="ec-time-main" style="color:#09599e;font-size:18px;">16:00</div>
-          <div class="ec-time-date" style="color:#09599e;">a 18:30</div>
+        <div class="ec-time">
+          <div class="ec-time-main">16:00</div>
+          <div class="ec-time-date">a 18:30</div>
         </div>
         <div class="ec-body">
-          <span class="ec-badge b-online">🌐 Sesión On-Line</span>
+          <span class="ec-badge b-online">Sesión online</span>
           <div>
             <div class="ec-title-text">Sesión Científica On-Line Internacional (Hora Española)</div>
             <div class="ec-loc"><span>Sala Virtual Webex UCO · Retransmisión en Directo</span></div>
@@ -860,29 +1139,29 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
         <div class="ec-desc">
           <p>Sesión académica virtual para ponentes e investigadores adscritos a la modalidad telemática internacional.</p>
           <div class="card-actions-bar" style="margin-bottom:14px;">
-            <a class="btn-card-action webex" href="https://ucordoba.webex.com/ucordoba/j.php?MTID=m096b94ad58b753c580350ce166ff37ba" target="_blank" rel="noopener">📹 Acceder a la Sala Webex UCO</a>
+            <a class="btn-card-action webex" href="https://ucordoba.webex.com/ucordoba/j.php?MTID=m096b94ad58b753c580350ce166ff37ba" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-video"/></svg>Acceder a la Sala Webex UCO</a>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:16px;margin-top:12px;">
-            <div style="background:#f8f9fa;padding:12px 14px;border-radius:6px;border:1px solid #e9ecef;">
-              <strong style="color:var(--c-uco);display:block;margin-bottom:4px;">Sesión On-Line 1 (16:00 – 18:30 h)</strong>
-              <span style="font-size:12px;color:var(--c-ink-3);font-style:italic;">Modera / Coordina: Prof. César Mora Márquez</span>
+          <div class="online-grid">
+            <div class="online-item">
+              <strong class="oi-title">Sesión On-Line 1 (16:00 – 18:30 h)</strong>
+              <span class="oi-chair">Modera / Coordina: Prof. César Mora Márquez</span>
             </div>
-            <div style="background:#f8f9fa;padding:12px 14px;border-radius:6px;border:1px solid #e9ecef;">
-              <strong style="color:var(--c-uco);display:block;margin-bottom:4px;">Sesión On-Line 2 (16:00 – 18:30 h)</strong>
-              <span style="font-size:12px;color:var(--c-ink-3);font-style:italic;">Modera / Coordina: Prof. Noel Muñiz Rodríguez</span>
-              <a class="btn-card-action webex" style="margin-top:8px;" href="https://ucordoba.webex.com/meet/td2muron" target="_blank" rel="noopener">📹 Sala Webex de la Sesión 2</a>
+            <div class="online-item">
+              <strong class="oi-title">Sesión On-Line 2 (16:00 – 18:30 h)</strong>
+              <span class="oi-chair">Modera / Coordina: Prof. Noel Muñiz Rodríguez</span>
+              <a class="btn-card-action webex" href="https://ucordoba.webex.com/meet/td2muron" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-video"/></svg>Sala Webex de la Sesión 2</a>
             </div>
-            <div style="background:#f8f9fa;padding:12px 14px;border-radius:6px;border:1px solid #e9ecef;">
-              <strong style="color:var(--c-uco);display:block;margin-bottom:4px;">Sesión On-Line 3 (16:00 – 18:30 h)</strong>
-              <span style="font-size:12px;color:var(--c-ink-3);font-style:italic;">Modera / Coordina: Prof. Arnaldo Vergara Romero</span>
+            <div class="online-item">
+              <strong class="oi-title">Sesión On-Line 3 (16:00 – 18:30 h)</strong>
+              <span class="oi-chair">Modera / Coordina: Prof. Arnaldo Vergara Romero</span>
             </div>
-            <div style="background:#f8f9fa;padding:12px 14px;border-radius:6px;border:1px solid #e9ecef;">
-              <strong style="color:var(--c-uco);display:block;margin-bottom:4px;">Sesión On-Line 4 (16:00 – 18:30 h)</strong>
-              <span style="font-size:12px;color:var(--c-ink-3);font-style:italic;">Modera / Coordina: Prof.ª Blanca García-Henche</span>
+            <div class="online-item">
+              <strong class="oi-title">Sesión On-Line 4 (16:00 – 18:30 h)</strong>
+              <span class="oi-chair">Modera / Coordina: Prof.ª Blanca García-Henche</span>
             </div>
           </div>
           <div class="card-actions-bar" style="margin-top:14px;">
-            <a class="btn-room-pdf" style="width:auto;padding:8px 16px;" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Sala Virtual Webex]</a>
+            <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Sala Virtual Webex]</a>
           </div>
         </div>
       </div>
@@ -893,7 +1172,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
         <div class="ec-time"><div class="ec-time-main">19:00</div><div class="ec-time-date">a 20:15</div></div>
         <div class="ec-body">
-          <span class="ec-badge b-included" data-i18n="badge-included">✓ Incluido</span>
+          <span class="ec-badge b-included" data-i18n="badge-included">Incluido</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-19-cult-title">Visita al Museo Taurino de Córdoba</div>
             <div class="ec-loc"><span data-i18n="ev-19-cult-loc">Museo Taurino de Córdoba · Plaza de Maimónides, 3, 14004 Córdoba (Judería)</span></div>
@@ -910,21 +1189,21 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
           </ul>
           <p style="font-size:12px;color:var(--c-ink-3);"><em>Actividad incluida con la acreditación oficial del congreso.</em></p>
           <div class="card-actions-bar">
-            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Museo+Taurino+de+C%C3%B3rdoba+Plaza+de+Maim%C3%B3nides+3+14004+C%C3%B3rdoba" target="_blank" rel="noopener">📍 <span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
+            <a class="btn-card-action" href="https://www.google.com/maps/search/?api=1&query=Museo+Taurino+de+C%C3%B3rdoba+Plaza+de+Maim%C3%B3nides+3+14004+C%C3%B3rdoba" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span data-i18n="btn-how-to-get">Cómo llegar (Google Maps)</span></a>
           </div>
         </div>
       </div>
     </article>
 
     <!-- Cena de Gala -->
-    <article class="event-card" style="border-color: var(--c-gold);">
+    <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time" style="background:var(--c-gold-pale);">
-          <div class="ec-time-main" style="color:var(--c-gold-dark);">21:30</div>
+        <div class="ec-time">
+          <div class="ec-time-main">21:30</div>
           <div class="ec-time-date">/ 22:15</div>
         </div>
         <div class="ec-body">
-          <span class="ec-badge b-gala" data-i18n="badge-gala">★ Cena de Gala</span>
+          <span class="ec-badge b-gala" data-i18n="badge-gala">Cena de Gala</span>
           <div>
             <div class="ec-title-row">
               <div class="ec-title-text" data-i18n="ev-19-gala-title">Cena de Gala Oficial del Congreso</div>
@@ -939,8 +1218,8 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
         <div class="ec-desc">
           <p data-i18n="ev-19-gala-desc">Actividad de acceso restringido previa inscripción y abono de cuota de cena. Plazas limitadas.</p>
           <div class="card-actions-bar">
-            <a class="btn-card-action book" href="https://www.congresogestionturisticadelpatrimonio.com/inscripciones-y-pagosregistrations-and-payments" target="_blank" rel="noopener">🎟️ <span data-i18n="btn-reserve-gala">Reservar Cena / Info Cuotas</span></a>
-            <a class="btn-card-action" href="https://maps.app.goo.gl/uX3Qd9K8n6bZ7X1r8" target="_blank" rel="noopener">📍 <span data-i18n="link-map">Ver ubicación en Google Maps</span></a>
+            <a class="btn-card-action book" href="https://www.congresogestionturisticadelpatrimonio.com/inscripciones-y-pagosregistrations-and-payments" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-ticket"/></svg><span data-i18n="btn-reserve-gala">Reservar Cena / Info Cuotas</span></a>
+            <a class="btn-card-action" href="https://maps.app.goo.gl/uX3Qd9K8n6bZ7X1r8" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span data-i18n="link-map">Ver ubicación en Google Maps</span></a>
           </div>
         </div>
       </div>
@@ -956,8 +1235,8 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
     <!-- Mesas Paralelas Viernes Mañana -->
     <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
-        <div class="ec-time" style="background:var(--c-uco-pale);border-color:var(--c-uco)">
-          <div class="ec-time-main" style="font-size:18px">09:00</div>
+        <div class="ec-time">
+          <div class="ec-time-main">09:00</div>
           <div class="ec-time-date">hasta 14:00</div>
         </div>
         <div class="ec-body">
@@ -979,18 +1258,18 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-actos">Salón de Actos</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 19 (9:00 – 10:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">09:00–10:00</span><span class="pl-label">Sesión 19</span></div>
                 <div class="paper-title">Integración del patrimonio a través del turismo en el desarrollo del territorio</div>
                 <div class="paper-chair">Modera: Arnaldo Vergara Romero</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión Internacional (10:00 – 12:30 h)</div>
+                <div class="paper-linea"><span class="pl-time">10:00–12:30</span><span class="pl-label">Sesión Internacional</span></div>
                 <div class="paper-title">Patrimonio cultural inmaterial y comunidades locales: gestión, identidad y sostenibilidad / Intangible Cultural Heritage</div>
                 <div class="paper-chair">Preside y modera: Dina Ezz El-Din</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Salón de Actos]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Salón de Actos]</a>
             </div>
           </div>
 
@@ -998,31 +1277,31 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-mudejar">Sala Mudéjar</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 8 (9:00 – 11:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">09:00–11:00</span><span class="pl-label">Sesión 8</span></div>
                 <div class="paper-title">Destinos Gastronómicos</div>
                 <div class="paper-chair">Moderan: Nuria Huete-Alcocer y Leonardo Gallardo Apolo</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Mesa KOL (11:00 – 12:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">11:00–12:00</span><span class="pl-label">Mesa KOL</span></div>
                 <div class="paper-title">“KOL EN PATRIMONIO”</div>
                 <div class="paper-chair">Creadores de contenido y divulgación del patrimonio</div>
                 <div class="paper-chair">Participan: Paloma López-Sidro (Cielos de Córdoba) · Chema Laffarga · Raquel Tarifa (Buen provecho)</div>
               </div>
-              <div class="paper-row" style="background:#fffcf2;border-top:1px dashed var(--c-gold);">
-                <div class="paper-linea" style="color:var(--c-gold-dark);">Enoturismo Patrimonial · Sala de Prensa (12:00 h)</div>
+              <div class="paper-row is-special">
+                <div class="paper-linea"><span class="pl-time">12:00</span><span class="pl-label">Enoturismo Patrimonial · Sala de Prensa</span></div>
                 <div class="paper-title">Cata dirigida: “Montilla-Moriles, historia, presente y futuro de una denominación de origen única”</div>
                 <div class="paper-chair">Imparte: Fran Doblas · Consejo Regulador de la DOP Montilla-Moriles</div>
                 <div class="paper-chair">Degustación técnica de finos, amontillados y Pedro Ximénez</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Mesa Redonda (12:00 – 13:30 h)</div>
+                <div class="paper-linea"><span class="pl-time">12:00–13:30</span><span class="pl-label">Mesa Redonda</span></div>
                 <div class="paper-title">“MODA Y PATRIMONIO, LA PERSPECTIVA EMPRESARIAL”</div>
                 <div class="paper-chair">Modera: Teresa Ávalos</div>
                 <div class="paper-chair">Participan: Álvaro Larrosa (diseñador de joyas) · Juan Foronda (mantones) · Francisco Tamaral (trajes de flamenca) · Inma Benicio (trajes de flamenca) · Paco Rosales (perfumista, Esencia de los Patios)</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Sala Mudéjar]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Sala Mudéjar]</a>
             </div>
           </div>
 
@@ -1030,23 +1309,23 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <div class="sfg-col-body">
               <div class="sfg-col-head"><div class="sfg-room" data-i18n="room-consejo">Sala Consejo de Gobierno</div></div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 10 (9:00 – 10:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">09:00–10:00</span><span class="pl-label">Sesión 10</span></div>
                 <div class="paper-title">Regulación, ordenación y marco jurídico del turismo</div>
                 <div class="paper-chair">Moderan: Mª Ángeles Recio y Rafael C. Ortega Navarro</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 9 (10:00 – 11:30 h)</div>
+                <div class="paper-linea"><span class="pl-time">10:00–11:30</span><span class="pl-label">Sesión 9</span></div>
                 <div class="paper-title">Digitalización e IA aplicadas al diseño de productos patrimoniales</div>
                 <div class="paper-chair">Moderan: José A. Fernández Gallardo y Carmen Barbero Saavedra</div>
               </div>
               <div class="paper-row">
-                <div class="paper-linea">Sesión 11 (12:30 – 14:00 h)</div>
+                <div class="paper-linea"><span class="pl-time">12:30–14:00</span><span class="pl-label">Sesión 11</span></div>
                 <div class="paper-title">Mercado Laboral, Emprendimiento y Gestión Responsable del Talento – Buenas Prácticas Docentes</div>
                 <div class="paper-chair">Moderan: Oleg Lazovski y Mª Jesús Vázquez García (UCO)</div>
               </div>
             </div>
             <div class="sfg-col-footer">
-              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener">⬇ Descargar Programa Completo en PDF [Sala Consejo de Gobierno]</a>
+              <a class="btn-room-pdf" href="https://www.congresogestionturisticadelpatrimonio.com/programa-completo-pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Descargar Programa Completo en PDF [Sala Consejo de Gobierno]</a>
             </div>
           </div>
         </div>
@@ -1083,7 +1362,7 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
         <div class="ec-time"><div class="ec-time-main">15:00</div></div>
         <div class="ec-body">
-          <span class="ec-badge b-included" data-i18n="badge-included">✓ Incluido</span>
+          <span class="ec-badge b-included" data-i18n="badge-included">Incluido</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-20-lunch-title">Cóctel de Despedida y Almuerzo de Clausura Institucional</div>
             <div class="ec-loc"><span>Caballerizas Reales de Córdoba</span></div>
@@ -1132,11 +1411,11 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
     <article class="event-card">
       <div class="ec-head clickable" onclick="toggleCard(this)" role="button" tabindex="0" aria-expanded="false">
         <div class="ec-time">
-          <div class="ec-time-main" style="font-size:15px;font-weight:700;">10:00 h</div>
-          <div class="ec-time-date">a 17:00 h</div>
+          <div class="ec-time-main">10:00</div>
+          <div class="ec-time-date">a 17:00</div>
         </div>
         <div class="ec-body">
-          <span class="ec-badge b-included" data-i18n="badge-included">✓ Incluido</span>
+          <span class="ec-badge b-included" data-i18n="badge-included">Incluido</span>
           <div>
             <div class="ec-title-text" data-i18n="ev-21-visit-title">Jornada Técnico-Turística a Montilla</div>
             <div class="ec-loc"><span data-i18n="ev-21-visit-loc">Montilla (Córdoba) · Salida y regreso: Rectorado UCO</span></div>
@@ -1154,11 +1433,11 @@ mark.hl{background:var(--c-mark);color:inherit;padding:0 1px;border-radius:2px;b
             <li><strong>Aforo estrictamente limitado:</strong> Hasta completar aforo de <strong>25 personas</strong>.</li>
           </ul>
           <div class="card-actions-bar" style="margin-top:14px;">
-            <a class="btn-card-action book" href="https://forms.gle/c2SPw4ydVTmL7s6K6" target="_blank" rel="noopener" style="font-weight:700;padding:8px 18px;font-size:13px;">📝 <span data-i18n="btn-confirm-montilla">Confirmar asistencia a la visita</span></a>
+            <a class="btn-card-action book" href="https://forms.gle/c2SPw4ydVTmL7s6K6" target="_blank" rel="noopener" style="font-weight:700;padding:8px 18px;font-size:13px;"><svg class="ic" aria-hidden="true"><use href="#i-pen"/></svg><span data-i18n="btn-confirm-montilla">Confirmar asistencia a la visita</span></a>
           </div>
         </div>
         <div class="meeting-info" style="border-left-color:var(--c-uco);background:#fcf0f2;color:var(--c-uco-deep);">
-          <strong data-i18n="notice-cap-title">⚠️ Aforo Limitado (25 plazas):</strong>
+          <strong data-i18n="notice-cap-title">Aforo Limitado (25 plazas):</strong>
           <span data-i18n="notice-cap-desc">Hasta completar aforo de 25 personas por riguroso orden de recepción en el formulario. Actividad pendiente de aprobación formal definitiva por Administración pública.</span>
         </div>
       </div>
@@ -1210,7 +1489,8 @@ const I18N = {
     "header-title-2": "VI CIGESTUR",
     "header-venue-label": "Sede Principal:",
     "header-venue-name": "Rectorado de la Universidad de Córdoba",
-    "badge-preliminary-title": "⚠️ Programa Oficial en Desarrollo",
+    "print-breakdown": "Desglose del programa",
+    "badge-preliminary-title": "Programa Oficial en Desarrollo",
     "badge-preliminary-desc": "Horarios, ponencias y distribución en salas actualizados según el documento oficial de comités.",
     "btn-expand-all": "Expandir / Colapsar Todo",
     "btn-pdf": "Programa de comunicaciones (PDF)",
@@ -1228,9 +1508,9 @@ const I18N = {
     "pre-note-day": "Jueves",
     "pre-note-date": "12 Nov",
     "pre-note-time": "10:00 h",
-    "pre-note-kicker": "Pre-Congreso · Nota Previa al Programa · 10:00 h",
+    "pre-note-kicker": "Pre-Congreso · Nota Previa al Programa",
     "pre-note-title": "Presentación a Prensa del Programa del Congreso",
-    "pre-note-sub": "Inicio a las 10:00 h · Acto institucional de presentación oficial ante los medios de comunicación previo al inicio del VI CIGESTUR 2026.",
+    "pre-note-sub": "Acto institucional de presentación oficial ante los medios de comunicación previo al inicio del VI CIGESTUR 2026.",
     "inst-collaborators": "Ayuntamiento de Córdoba · Museo Taurino Municipal de Córdoba · Cabildo Catedral de Córdoba · Conjunto Arqueológico Madinat Al-Zahra · Museo Arqueológico de Córdoba · Belloterra · Palacio de Viana · Patio de las Comedias · Restaurante El Churrasco · Consejo Regulador de la D.O.P. Montilla-Moriles · Ayuntamiento de Montilla · Bodegas Robles · Oficina de Turismo de Priego de Córdoba · D.O.P. Priego de Córdoba · AOVE La Santa",
     "day-tue-label": "Actividades precongresuales · Martes, 17 de noviembre de 2026",
     "day-wed-label": "Actividades precongresuales · Miércoles, 18 de noviembre de 2026",
@@ -1260,7 +1540,7 @@ const I18N = {
     "ev-18-pan-title": "El pan que nos une · Tres culturas, una mesa compartida",
     "ev-18-pan-org": "Organiza: Aula UCOTUREM · Universidad de Córdoba · Encuentro previo al cóctel de bienvenida",
     "ev-18-pan-desc": "Encuentro cultural sobre el pan en las tradiciones judía, cristiana y musulmana, con degustación de panes y atención a la inclusión sin gluten. Encuentro previo al cóctel de bienvenida del VI CIGESTUR.",
-    "badge-restricted-uco": "🔒 Acceso restringido a Universidades Internacionales Colaboradoras y Organización UCO",
+    "badge-restricted-uco": "Acceso restringido a Universidades Internacionales Colaboradoras y Organización UCO",
     "ev-19-cult-title": "Visita al Museo Taurino de Córdoba",
     "ev-20-lunch-desc": "Cortesía de la Alcaldía del Ayuntamiento de Córdoba. Actividad incluida para todos los congresistas acreditados.",
     "ev-19-cult-loc": "Museo Taurino de Córdoba · Plaza de Maimónides, 3, 14004 Córdoba (Judería)",
@@ -1278,16 +1558,16 @@ const I18N = {
     "lbl-place": "Programa:",
     "ev-21-visit-place": "Visita a bodega · Almuerzo · Visita a lugar turístico.",
     "btn-confirm-montilla": "Confirmar asistencia a la visita",
-    "notice-cap-title": "⚠️ Aforo Limitado (25 plazas):",
+    "notice-cap-title": "Aforo Limitado (25 plazas):",
     "notice-cap-desc": "Hasta completar aforo de 25 personas por riguroso orden de recepción en el formulario. Actividad pendiente de aprobación formal definitiva por Administración pública.",
     "btn-how-to-get": "Cómo llegar (Google Maps)",
     "btn-web-museum": "Web Oficial del Museo",
     "badge-academic": "Académico",
-    "badge-included": "✓ Incluido",
+    "badge-included": "Incluido",
     "badge-inst": "Institucional",
     "badge-inaug": "Inauguración",
     "badge-parallel": "Mesas Paralelas",
-    "badge-gala": "★ Cena de Gala",
+    "badge-gala": "Cena de Gala",
     "badge-premios": "Premios y Honores",
     "badge-close": "Clausura",
     "badge-reserva-aparte": "Reserva aparte",
@@ -1312,7 +1592,8 @@ const I18N = {
     "header-title-2": "VI CIGESTUR",
     "header-venue-label": "Main Venue:",
     "header-venue-name": "Rectorate of the University of Córdoba",
-    "badge-preliminary-title": "⚠️ Official Program in Progress",
+    "print-breakdown": "Detailed programme",
+    "badge-preliminary-title": "Official Program in Progress",
     "badge-preliminary-desc": "Schedules, paper presentations and parallel rooms updated per official committee records.",
     "btn-expand-all": "Expand / Collapse All",
     "btn-pdf": "Accepted papers programme (PDF)",
@@ -1330,9 +1611,9 @@ const I18N = {
     "pre-note-day": "Thursday",
     "pre-note-date": "Nov 12",
     "pre-note-time": "10:00 h",
-    "pre-note-kicker": "Pre-Congress · Preliminary Program Note · 10:00 h",
+    "pre-note-kicker": "Pre-Congress · Preliminary Program Note",
     "pre-note-title": "Press Presentation of the Congress Program",
-    "pre-note-sub": "Starts at 10:00 h · Official institutional presentation to the media prior to the formal start of VI CIGESTUR 2026.",
+    "pre-note-sub": "Official institutional presentation to the media prior to the formal start of VI CIGESTUR 2026.",
     "inst-collaborators": "City Council of Córdoba · Municipal Bullfighting Museum of Córdoba · Cathedral Chapter of Córdoba · Madinat Al-Zahra Archaeological Complex · Archaeological Museum of Córdoba · Belloterra · Viana Palace · Patio de las Comedias · Restaurante El Churrasco · Montilla-Moriles PDO Regulatory Council · City Council of Montilla · Bodegas Robles · Tourist Office of Priego de Córdoba · Priego de Córdoba PDO · AOVE La Santa",
     "day-tue-label": "Pre-Conference Activities · Tuesday, November 17, 2026",
     "day-wed-label": "Pre-Conference Activities · Wednesday, November 18, 2026",
@@ -1362,7 +1643,7 @@ const I18N = {
     "ev-18-pan-title": "The Bread That Unites Us · Three cultures, one shared table",
     "ev-18-pan-org": "Organized by: Aula UCOTUREM · University of Córdoba · Gathering before the welcome cocktail",
     "ev-18-pan-desc": "Cultural gathering on bread in the Jewish, Christian and Muslim traditions, with a bread tasting and attention to gluten-free inclusion. Held before the VI CIGESTUR welcome cocktail.",
-    "badge-restricted-uco": "🔒 Restricted access to Partner International Universities & UCO Organization",
+    "badge-restricted-uco": "Restricted access to Partner International Universities & UCO Organization",
     "ev-19-cult-title": "Visit to the Bullfighting Museum of Córdoba",
     "ev-20-lunch-desc": "Courtesy of the Mayor's Office of the City Council of Córdoba. Included for all registered participants.",
     "ev-19-cult-loc": "Bullfighting Museum of Córdoba · Plaza de Maimónides, 3, 14004 Córdoba (Jewish Quarter)",
@@ -1380,16 +1661,16 @@ const I18N = {
     "lbl-place": "Programme:",
     "ev-21-visit-place": "Winery visit · Lunch · Visit to a tourist site.",
     "btn-confirm-montilla": "Confirm Attendance (Booking Form)",
-    "notice-cap-title": "⚠️ Limited Capacity (25 Seats):",
+    "notice-cap-title": "Limited Capacity (25 Seats):",
     "notice-cap-desc": "Strict limit of 25 participants by registration order in form. Pending formal final public administration confirmation.",
     "btn-how-to-get": "Directions (Google Maps)",
     "btn-web-museum": "Official Museum Website",
     "badge-academic": "Academic",
-    "badge-included": "✓ Included",
+    "badge-included": "Included",
     "badge-inst": "Institutional",
     "badge-inaug": "Opening Ceremony",
     "badge-parallel": "Parallel Tracks",
-    "badge-gala": "★ Gala Dinner",
+    "badge-gala": "Gala Dinner",
     "badge-premios": "Awards & Honors",
     "badge-close": "Closing Ceremony",
     "badge-reserva-aparte": "Separate Booking",
@@ -1451,6 +1732,7 @@ function setLanguage(lang){
   });
   textCache = new WeakMap();
   filterCombined();
+  buildOverview();
 }
 
 function setCardOpen(card, open){
@@ -1554,6 +1836,38 @@ function filterCombined(){
   else if(currentDayFilter !== 'all') searchStatus.textContent = t.shown(totalCards);
   else searchStatus.textContent = '';
 }
+document.addEventListener('keydown', e => {
+  const h = e.target.closest && e.target.closest('.ec-head.clickable');
+  if (!h || (e.key !== 'Enter' && e.key !== ' ')) return;
+  e.preventDefault();
+  toggleCard(h);
+});
+
+const OVERVIEW_TEXT = {
+  es: { title: 'Programa oficial', day: 'Día', am: 'Mañana', pm: 'Tarde y noche' },
+  en: { title: 'Official programme', day: 'Day', am: 'Morning', pm: 'Afternoon & evening' }
+};
+function buildOverview(){
+  const box = document.getElementById('print-overview');
+  if (!box) return;
+  const T = OVERVIEW_TEXT[currentLang] || OVERVIEW_TEXT.es;
+  const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const rows = daySections.map(sec => {
+    const chip = document.querySelector(`.filter-btn[onclick*="'${sec.dataset.day}'"]`);
+    const [date, ...rest] = (chip ? chip.textContent : sec.dataset.day).split('·').map(s => s.trim());
+    const cells = { am: [], pm: [] };
+    sec.querySelectorAll('.event-card').forEach(card => {
+      const time = card.querySelector('.ec-time-main').textContent.trim().replace(/\s*h$/, '');
+      const title = card.querySelector('.ec-title-text').textContent.split(/ — | · /)[0].trim();
+      if (/libre|free/i.test(title)) return;
+      const h = parseInt(time, 10);
+      (isNaN(h) || h >= 14 ? cells.pm : cells.am).push(`<span class="po-item"><b>${esc(time)}</b>${esc(title)}</span>`);
+    });
+    return `<tr><td>${esc(date)}<small>${esc(rest.join(' · '))}</small></td><td>${cells.am.join('')}</td><td>${cells.pm.join('')}</td></tr>`;
+  }).join('');
+  box.innerHTML = `<h2 class="po-title">${T.title}</h2><table class="po-table"><thead><tr><th>${T.day}</th><th>${T.am}</th><th>${T.pm}</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+buildOverview();
 let timer;
 searchInput.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(filterCombined, 200); });
 </script>
